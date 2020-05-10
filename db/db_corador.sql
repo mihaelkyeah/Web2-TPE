@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: May 07, 2020 at 09:49 PM
+-- Generation Time: May 10, 2020 at 08:11 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -70,10 +70,10 @@ INSERT INTO `ins_categ` (`id_categ`, `categ_name`) VALUES
 (1, 'strings'),
 (2, 'winds'),
 (3, 'keys'),
-(4, 'drums'),
+(4, 'percussion'),
 (5, 'elecStrings'),
 (6, 'elecKeys'),
-(7, 'percussion');
+(7, 'drums');
 
 --
 -- Indexes for dumped tables
