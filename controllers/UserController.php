@@ -1,14 +1,19 @@
 <?php
 
 require_once('views/UserView.php');
+require_once('models/UserModel.php');
 
 class UserController {
 
     private $model;
     private $view;
+    private $authHelper;
+    public $isadmin;
 
     public function __construct() {
         $this->view = new UserView();
+        $this->model = new UserModel();
+        $this->authHelper = new AuthHelper();
         // TODO init user model
     }
 
@@ -21,17 +26,36 @@ class UserController {
     }
 
     public function verify() {
-        if(!empty($_POST['username']) && !empty($_POST['email']) && !empty($_POST['password'])) {
+        if(!empty($_POST['username']) && !empty($_POST['password'])) {
             $user = $_POST['username'];
-            $pass = $_POST['email'];
             $pass = $_POST['password'];
-            echo ($user .' '. $pass);
+            $userDB = $this->model->getUserByUsername($user);
+
+            if(!empty($userDB) && password_verify($pass, $userDB->pass)) {
+                session_start();
+                $_SESSION['ID USER'] = $userDB->id_user;
+                $_SESSION['USERNAME'] = $userDB->username;
+                header('Location: '. BASE_URL .'home');
+                // $msg = ("Welcome, ".$userDB->username);
+                $this->view->showHome($msg);
+                $this->isadmin = $userDB->is_admin;
+            }
+            else {
+                $this->view->showLogin("Login incorrecto");
+            }
         }
-        else {
-            echo('Invalid username!<br>');
-            // Esto es un script dentro de un HTML dentro de un PHP... No sé cuántos puntos voy a perder por esto xdxdxd
-            echo('<a href=# onclick="window.history.back()">Go back</a>');
-        }
+    }
+
+    public function viewProfile() {
+        var_dump($this->isadmin);
+        $this->view->viewProfile($this->isadmin);
+    }
+
+    public function logout() {
+        session_start();
+        session_destroy();
+        // $this->view->showHome("You have logged out.");
+        header('Location: '. BASE_URL .'home');
     }
 
 }

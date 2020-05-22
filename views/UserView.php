@@ -1,46 +1,41 @@
 <?php
 // vista: interfaz del usuario (frontend)
 require_once('libs/Smarty.class.php');
+require_once('helpers/auth.helper.php');
+
 class UserView {
 
-    public $navbar;
+    private $smarty;
 
-    public function __construct() {
-        $this->navbar = array(
-            BASE_URL.'home' ,
-            BASE_URL.'instruments' ,
-            BASE_URL.'categories'
-        );
+    function __construct() {
+        $authHelper = new AuthHelper();
+        $username = $authHelper->getLoggedUsername();
+        $this->smarty = new Smarty();
+        $this->smarty->assign('baseURL',BASE_URL);
+        $this->smarty->assign('username',$username);
     }
 
     //  TODO panel del usuario
-    function viewProfile() {
-        $smarty = new Smarty();
-        $smarty->assign(`title`,`User Control Panel`);
-        // . . . . . . . . . . . . . . .
-        // Cambiar contraseña
-        // Cerrar sesión
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/userCtrlPanel.tpl');
+    function viewProfile($isadmin) {
+        $this->smarty->assign('pageName','User Control Panel');
+        $this->smarty->assign('pageTitle','User Control Panel');
+        // $this->smarty->assign('user',$user);
+        $this->smarty->assign('isadmin',$isadmin);
+        $this->smarty->display('templates/user_ctrlPanel.tpl');
     }
 
-    public function showLogin() {
-        $smarty = new Smarty();
-        $smarty->assign('pageName', 'User Login');
-        $smarty->assign('pageTitle', 'Login');
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/user_login.tpl');
+    public function showLogin($error=null) {
+        $this->smarty->assign('pageName', 'User Login');
+        $this->smarty->assign('pageTitle', 'Login');
+        $this->smarty->assign('error',$error);
+        $this->smarty->display('templates/user_login.tpl');
     }
 
-    public function showHome() {
-        $smarty = new Smarty();
-        $smarty->assign('pageName', 'Home');
-        $smarty->assign('pageTitle', 'Corador Musical Instruments');
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/home.tpl');
+    public function showHome($msg=null) {
+        $this->smarty->assign('pageName', 'Home');
+        $this->smarty->assign('pageTitle', 'Corador Musical Instruments');
+        $this->smarty->assign('msg',$msg);
+        $this->smarty->display('templates/home.tpl');
     }
 
 }

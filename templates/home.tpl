@@ -1,7 +1,9 @@
 {include file='templates/header.tpl'}
-{*¿Cómo podría hacer para incluir un "sub panel" de usuario
-para iniciar sesión si no está logueado,
-y para acceder al panel de control si está logueado?*}
+    {if isset($msg)}
+        <div class="alert alert-info">
+            {$msg}
+        </div>
+    {/if}
     <img src="img/home.jpg" width="100">
     <h2>Lorem ipsum dolor sit amet</h2>
     <h3>Lorem ipsum dolor sit amet</h3>

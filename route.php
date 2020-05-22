@@ -32,6 +32,14 @@ switch($urlParts[0]) {
         $controller = new UserController();
         $controller->verify();
     break;
+    case 'logout':
+        $controller = new UserController();
+        $controller->logout();
+    break;
+    case 'user':
+        $controller = new UserController();
+        $controller->viewProfile();
+    break;
     case 'instruments': 
         $controller = new InsController();
         if (sizeof($urlParts)==1) {

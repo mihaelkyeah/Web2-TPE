@@ -18,15 +18,21 @@
         <nav class="navbar navbar-expand-xl navbar-dark bg-primary mb-3">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="navbar-brand" href={$navbar[0]}>Home</a>
+                    <a class="navbar-brand" href="{$baseURL}home">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-item nav-link" href={$navbar[1]}>Instruments</a>
+                    <a class="nav-item nav-link" href="{$baseURL}instruments">Instruments</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-item nav-link" href={$navbar[2]}>Categories</a>
+                    <a class="nav-item nav-link" href="{$baseURL}categories">Categories</a>
                 </li>
             </ul>
+            {if isset($username)}
+                <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}user">{$username} (control panel)</a></span>
+                <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}logout">Logout</a></span>
+            {else}
+                <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}login">Log in</a></span>
+            {/if}
         </nav>
         <h1>{$pageTitle}</h1>
     </header>

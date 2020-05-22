@@ -7,13 +7,15 @@
             <input name="username" type="text" placeholder="Enter username" class="form-control">
         </div>
         <div class = "form-group">
-            <label>E-Mail</label>
-            <input name="email" type="email" placeholder="Enter e-mail address" class="form-control">
-        </div>
-        <div class = "form-group">
             <label>Password</label>
             <input name="password" type="password" placeholder="Enter password" class="form-control">
         </div>
+
+        {if isset($error)}
+            <div class="alert alert-danger" role="alert">
+                {$error}
+            </div>
+        {/if}
 
         <input type="submit" class="btn btn-primary">
     </form>

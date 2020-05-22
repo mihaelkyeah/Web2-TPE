@@ -1,13 +1,11 @@
-{*
-Esto debería ser un template para editar un instrumento, pero en el form no sé a qué php apuntar...
-O si estoy bien encaminado para empezar. Ya veremos.
-*}
-
 {include file='templates/header.tpl'}
-{include file='templates/insDetail'}
-    <form method="POST" action="">
-        <input type="text" name="newName" placeholder="Nombre nuevo">
-        <textarea name="newDescription" rows="3" cols="25" placeholder="Descripción nueva"></textarea>
+{include file='templates/detail_ins.tpl'}
+    <h2>Edit instrument</h2>
+    <form method="POST" action="editIns">
+        <input type="text" name="newName" placeholder="New name">
+        <textarea name="newDescription" rows="3" cols="25" placeholder="New description"></textarea>
+        <input type="number" name="newPrice" min="0" max="99999.99" step=".01" placeholder="New price">
         <input type="submit">
     </form>
+    <a href="deleteIns/{$insID}">Delete instrument</a>
 {include file='templates/footer.tpl'}

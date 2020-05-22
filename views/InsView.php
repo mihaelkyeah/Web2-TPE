@@ -1,46 +1,38 @@
 <?php
 // vista: interfaz del usuario (frontend)
 require_once('libs/Smarty.class.php');
+
 class InsView {
 
-    public $navbar;
+    private $smarty;
 
-    public function __construct() {
-        $this->navbar = array(
-            BASE_URL.'home' ,
-            BASE_URL.'instruments' ,
-            BASE_URL.'categories'
-        );
+    function __construct() {
+        $authHelper = new AuthHelper();
+        $username = $authHelper->getLoggedUsername();
+        $this->smarty = new Smarty();
+        $this->smarty->assign('baseURL',BASE_URL);
+        $this->smarty->assign('username',$username);
     }
 
     public function viewCategIns($instruments,$category) {
-        $smarty = new Smarty();
-        $smarty->assign('pageName','Instruments by category: '.$category);
-        $smarty->assign('pageTitle',$category);
-        $smarty->assign('instruments',$instruments);
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/list_ins.tpl');
+        $this->smarty->assign('pageName','Instruments by category: '.$category);
+        $this->smarty->assign('pageTitle',$category);
+        $this->smarty->assign('instruments',$instruments);
+        $this->smarty->display('templates/list_ins.tpl');
     }
 
     public function viewAllIns($instruments) {
-        $smarty = new Smarty();
-        $smarty->assign('pageName','All instruments');
-        $smarty->assign('pageTitle','All instruments');
-        $smarty->assign('instruments',$instruments);
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/list_ins.tpl');
+        $this->smarty->assign('pageName','All instruments');
+        $this->smarty->assign('pageTitle','All instruments');
+        $this->smarty->assign('instruments',$instruments);
+        $this->smarty->display('templates/list_ins.tpl');
     }
 
     public function viewInsDetail($instrument) {
-        $smarty = new Smarty();
-        $smarty->assign('pageName','Instrument details: '.$instrument->ins_name);
-        $smarty->assign('pageTitle','Instrument details');
-        $smarty->assign('instrument',$instrument);
-        $smarty->assign('baseURL',BASE_URL);
-        $smarty->assign('navbar',$this->navbar);
-        $smarty->display('templates/detail_ins.tpl');
+        $this->smarty->assign('pageName','Instrument details: '.$instrument->ins_name);
+        $this->smarty->assign('pageTitle','Instrument details');
+        $this->smarty->assign('instrument',$instrument);
+        $this->smarty->display('templates/detail_ins.tpl');
     }
 
 }
