@@ -1,5 +1,3 @@
-{* Formulario para crear o editar categorías *}
-
 <div class="form-group">
     <input type="text" name="categName" placeholder="Name" class="form-control">
 </div>

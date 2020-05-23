@@ -1,12 +1,9 @@
 <?php
 // vista: interfaz del usuario (frontend)
-// TODO: IMPLEMENTAR HERENCIA
 require_once('libs/Smarty.class.php');
 require_once('helpers/auth.helper.php');
 
 class UserView {
-
-    // ====== INICIO BLOQUE A HEREDAR DE VIEW.PHP ======
 
     private $smarty;
 
@@ -18,18 +15,15 @@ class UserView {
         $this->smarty->assign('username',$username);
     }
 
-    // ====== FIN BLOQUE A HEREDAR DE VIEW.PHP ======
-
-    // Muestra el panel de usuario
-    function viewProfile($iduser,$isadmin) {
+    //  TODO panel del usuario
+    function viewProfile($isadmin) {
         $this->smarty->assign('pageName','User Control Panel');
         $this->smarty->assign('pageTitle','User Control Panel');
-        $this->smarty->assign('iduser',$iduser);
+        // $this->smarty->assign('user',$user);
         $this->smarty->assign('isadmin',$isadmin);
         $this->smarty->display('templates/user_ctrlPanel.tpl');
     }
 
-    // Muestra formulario de inicio de sesión
     public function showLogin($error=null) {
         $this->smarty->assign('pageName', 'User Login');
         $this->smarty->assign('pageTitle', 'Login');
@@ -37,7 +31,6 @@ class UserView {
         $this->smarty->display('templates/user_login.tpl');
     }
 
-    // Muestra la página principal
     public function showHome($msg=null) {
         $this->smarty->assign('pageName', 'Home');
         $this->smarty->assign('pageTitle', 'Corador Musical Instruments');

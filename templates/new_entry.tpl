@@ -1,5 +1,3 @@
-{* Nueva entrada (instrumento o categoría) *}
-
 {include 'templates/header.tpl'}
     <div class="container">
         <h2>Create new 
@@ -8,7 +6,7 @@
             <div class="container">
                 <form method="POST" action="create/instrument">
                     {include 'templates/form_ins.tpl'}
-                    <input type="submit" value="Create instrument" class="btn btn-warning">
+                    <input type="submit" value="Create instrument">
                 </form>
             </div>
         {elseif $type eq "category"}
@@ -16,7 +14,7 @@
             <div class="container">
                 <form method="POST" action="create/category">
                     {include 'templates/form_categ.tpl'}
-                    <input type="submit" value="Create category" class="btn btn-warning">
+                    <input type="submit" value="Create category">
                 </form>
             </div>
         {/if}
