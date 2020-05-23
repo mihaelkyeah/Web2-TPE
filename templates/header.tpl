@@ -1,3 +1,5 @@
+{* Encabezado del HTML y de la página, nav y div de clase main para el contenido *}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,3 +38,4 @@
         </nav>
         <h1>{$pageTitle}</h1>
     </header>
+    <div class="main">

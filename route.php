@@ -12,12 +12,23 @@ if($_GET['action'] == '') {
 
 $urlParts = explode('/', $_GET['action']);
 
+/**
+ * ARREGLO DE CATEGORÍAS
+ * 
+ * Para evitar que el controller de instrumentos se comunique con el modelo de categorías,
+ * creé un arreglo de categorías que se obtiene a través del router,
+ * y luego se envía a distintos métodos del controlador de instrumentos
+ * para poder mostrar los nombres de las categorías al mostrar instrumentos por categoría,
+ * y también para poder seleccionar la categoría que va a tener un instrumento nuevo o editado.
+ */
 $categoryArray = initCategArray();
 function initCategArray() {
     $controller = new CategController();
     $categArray = $controller->getCategoryArray();
     return $categArray;
 }
+
+// ====== Operaciones asignadas a las URL ======
 
 switch($urlParts[0]) {
 

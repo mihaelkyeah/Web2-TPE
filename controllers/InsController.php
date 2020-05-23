@@ -1,7 +1,5 @@
 <?php
-// controlador: coordinador entre vista y modelo
-
-// TODO: Llamar al modelo de categorías para traer los nombres de la(s) categoría(s)
+// controlador: coordinador entre vista y modelo (instrumentos)
 
 require_once('models/InsModel.php');
 require_once('views/InsView.php');
@@ -30,7 +28,6 @@ class InsController {
      * Trae un arreglo con todos los instrumentos en la tabla `instruments`.
      * Luego lo muestra por pantalla.
      */
-
     public function showAllInstruments() {
         $instruments = $this->model->getAllIns();
         $this->view->viewAllIns($instruments);
@@ -40,17 +37,13 @@ class InsController {
      * Trae un objeto correspondiente a un instrumento a través de su ID pasado por parámetro.
      * Luego lo muestra por pantalla.
      */
-
     public function showInstrumentDetail($id,$categoryArray) {
         $instrument = $this->model->getIns($id);
         $categIndex = array_search(($instrument->id_categ_fk), array_column($categoryArray,'id_categ'));
         $this->view->viewInsDetail($instrument,$categoryArray,$categIndex);
     }
 
-    /**
-     * Muestra el formulario para crear un instrumento desde cero.
-     */
-
+    // Muestra el formulario para crear un instrumento desde cero
     public function showFormInstrument($categoryArray) {
         $this->view->showFormIns($categoryArray);
     }
@@ -80,9 +73,7 @@ class InsController {
         }
     }
 
-    /**
-     * Actualiza un instrumento de la tabla buscándolo con su ID pasado por parámetro.
-     */
+    // Actualiza un instrumento por ID
     public function updateInstrument($id) {
         
         $name = $_POST['insName'];
@@ -109,10 +100,7 @@ class InsController {
         
     }
 
-    /**
-     * Borra un instrumento por ID.
-     */
-
+    // Borra un instrumento por ID
     public function deleteInstrument($id) {
         $this->model->deleteIns($id);
         header('Location:'. BASE_URL .'instruments');
