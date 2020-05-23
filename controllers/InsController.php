@@ -5,7 +5,6 @@
 
 require_once('models/InsModel.php');
 require_once('views/InsView.php');
-require_once('models/CategModel.php');
 
 class InsController {
 
@@ -42,9 +41,18 @@ class InsController {
      * Luego lo muestra por pantalla.
      */
 
-    public function showInstrumentDetail($id) {
+    public function showInstrumentDetail($id,$categoryArray) {
         $instrument = $this->model->getIns($id);
-        $this->view->viewInsDetail($instrument);
+        $categIndex = array_search(($instrument->id_categ_fk), array_column($categoryArray,'id_categ'));
+        $this->view->viewInsDetail($instrument,$categoryArray,$categIndex);
+    }
+
+    /**
+     * Muestra el formulario para crear un instrumento desde cero.
+     */
+
+    public function showFormInstrument($categoryArray) {
+        $this->view->showFormIns($categoryArray);
     }
 
     /**
@@ -54,12 +62,12 @@ class InsController {
     public function addInstrument() {
         $name = $_POST['insName'];
         $price = $_POST['price'];
-        $details = $_POST['insDetails'];
+        $details = $_POST['insDesc'];
         $insCateg = $_POST['insCateg'];
 
         if(empty($name) || empty($price) || empty($insCateg)) {
-            $this->view->showError("Faltan datos obligatorios.","Revise el nombre, precio y categoría.");
-            die();
+            $this->view->showError("Obligatory values missing","Check the name, price and category fields.");
+            die;
         }
 
         $success = $this->model->saveIns($name, $price, $details, $insCateg);
@@ -67,7 +75,8 @@ class InsController {
             header('Location: '. BASE_URL .'instruments');
         }
         else {
-            $this->view->showError("No se pudo realizar la consulta.","Puede que falten datos o sean inválidos.");
+            $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
+            die;
         }
     }
 
@@ -77,12 +86,12 @@ class InsController {
     public function updateInstrument($id) {
         
         $name = $_POST['insName'];
-        $price = $_POST['price'];
-        $details = $_POST['insDetails'];
-        $insCateg = $_POST['insCateg'];
+        $price = floatval($_POST['price']);
+        $details = $_POST['insDesc'];
+        $insCateg = intval($_POST['insCateg']);
 
         if(empty($name) || empty($price) || empty($insCateg)) {
-            $this->view->showError("Faltan datos obligatorios.","Revise el nombre, precio y categoría.");
+            $this->view->showError("Obligatory values missing","Check the name, price and category fields.");
             die();
         }
         
@@ -90,14 +99,23 @@ class InsController {
             $details = "";
         }
 
-        $success = $this->model->updateIns($name, $details, $id);
+        $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
         if($success) {
-            header('Location: '. BASE_URL ."categories");
+            header('Location: '. BASE_URL .'instruments');
         }
         else {
-            $this->view->showError("No se pudo realizar la consulta.","Puede que falten datos o sean inválidos.");
+            $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
         
+    }
+
+    /**
+     * Borra un instrumento por ID.
+     */
+
+    public function deleteInstrument($id) {
+        $this->model->deleteIns($id);
+        header('Location:'. BASE_URL .'instruments');
     }
 
 }

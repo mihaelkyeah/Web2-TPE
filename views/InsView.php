@@ -28,11 +28,29 @@ class InsView {
         $this->smarty->display('templates/list_ins.tpl');
     }
 
-    public function viewInsDetail($instrument) {
+    public function viewInsDetail($instrument,$categoryArray,$categIndex) {
         $this->smarty->assign('pageName','Instrument details: '.$instrument->ins_name);
         $this->smarty->assign('pageTitle','Instrument details');
         $this->smarty->assign('instrument',$instrument);
+        $this->smarty->assign('categArray',$categoryArray);
+        $this->smarty->assign('categIndex',$categIndex);
         $this->smarty->display('templates/detail_ins.tpl');
+    }
+
+    public function showFormIns($categoryArray) {
+        $this->smarty->assign('pageName','Crate new instrument');
+        $this->smarty->assign('pageTitle','New entry');
+        $this->smarty->assign('type','instrument');
+        $this->smarty->assign('categArray',$categoryArray);
+        $this->smarty->display('templates/new_entry.tpl');
+    }
+
+    public function showError($msg1,$msg2) {
+        $this->smarty->assign('pageName','Error');
+        $this->smarty->assign('pageTitle','Error');
+        $this->smarty->assign('msg1',$msg1);
+        $this->smarty->assign('msg2',$msg2);
+        $this->smarty->display('templates/error.tpl');
     }
 
 }

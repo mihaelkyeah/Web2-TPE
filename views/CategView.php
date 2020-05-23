@@ -28,6 +28,21 @@ class CategView {
         $this->smarty->display('templates/detail_categ.tpl');
     }
 
+    public function showFormCateg() {
+        $this->smarty->assign('pageName','Crate new category');
+        $this->smarty->assign('pageTitle','New entry');
+        $this->smarty->assign('type','category');
+        $this->smarty->display('templates/new_entry.tpl');
+    }
+
+    public function showError($msg1,$msg2) {
+        $this->smarty->assign('pageName','Error');
+        $this->smarty->assign('pageTitle','Error');
+        $this->smarty->assign('msg1',$msg1);
+        $this->smarty->assign('msg2',$msg2);
+        $this->smarty->display('templates/error.tpl');
+    }
+
 }
 
 ?>

@@ -29,5 +29,8 @@
         </ul>
     {/if}
     </div>
+    <div class="container">
+        <a href="formnew/instrument">Create instrument</a>
+    </div>
 </div>
 {include file='templates/footer.tpl'}

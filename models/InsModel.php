@@ -60,7 +60,7 @@ class InsModel {
      */
 
     public function saveIns($name, $price, $details, $category) {
-        $query = $this->db->prepare('INSERT INTO `instrument` (`ins_name`, `price`, `ins_desc`, `id_categ_fk`) VALUES (? ? ? ?)');
+        $query = $this->db->prepare('INSERT INTO `instrument` (`ins_name`, `price`, `ins_desc`, `id_categ_fk`) VALUES (?, ?, ?, ?)');
         return $query->execute([$name,$price,$details,$category]);
     }
 

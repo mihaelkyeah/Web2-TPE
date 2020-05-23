@@ -7,14 +7,11 @@ class UserController {
 
     private $model;
     private $view;
-    private $authHelper;
-    public $isadmin;
+    public $is_admin;
 
     public function __construct() {
         $this->view = new UserView();
         $this->model = new UserModel();
-        $this->authHelper = new AuthHelper();
-        // TODO init user model
     }
 
     public function showHome() {
@@ -35,20 +32,25 @@ class UserController {
                 session_start();
                 $_SESSION['ID USER'] = $userDB->id_user;
                 $_SESSION['USERNAME'] = $userDB->username;
+                $this->is_admin = $userDB->is_admin;
                 header('Location: '. BASE_URL .'home');
                 // $msg = ("Welcome, ".$userDB->username);
-                $this->view->showHome($msg);
-                $this->isadmin = $userDB->is_admin;
+                // $this->view->showHome($msg);
             }
             else {
-                $this->view->showLogin("Login incorrecto");
+                $this->view->showLogin("Incorrect username or password.");
+                die;
             }
+        }
+        else {
+            $this->view->showLogin("Login credentials missing.");
+            die;
         }
     }
 
     public function viewProfile() {
-        var_dump($this->isadmin);
-        $this->view->viewProfile($this->isadmin);
+        var_dump($this->is_admin);
+        $this->view->viewProfile($this->is_admin);
     }
 
     public function logout() {

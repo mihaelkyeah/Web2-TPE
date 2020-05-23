@@ -51,7 +51,7 @@ class CategModel {
      * Agrega una categoría nueva
      */
     public function saveCateg($name,$details) {
-        $query = $this->db->prepare('INSERT INTO `ins_category` (`categ_name`, `categ_desc`) VALUES (? ?)');
+        $query = $this->db->prepare('INSERT INTO `ins_category` (`categ_name`, `categ_desc`) VALUES (?, ?)');
         return ($query->execute([$name,$details]));
     }
 

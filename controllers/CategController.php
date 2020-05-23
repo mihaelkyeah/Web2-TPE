@@ -14,14 +14,18 @@ class CategController {
         $this->view = new CategView();
     }
 
+    public function showAllCategory() {
+        $categories = $this->model->getAllCateg();
+        $this->view->viewCategories($categories);
+    }
+
     public function showCategoryDetail($id) {
         $category = $this->model->getCateg($id);
         $this->view->viewCategDetail($category);
     }
 
-    public function showAllCategory() {
-        $categories = $this->model->getAllCateg();
-        $this->view->viewCategories($categories);
+    public function showFormCategory() {
+        $this->view->showFormCateg();
     }
 
     /**
@@ -32,7 +36,7 @@ class CategController {
         $details = $_POST['categDetails'];
 
         if(empty($name)) {
-            $this->view->showError("Faltan datos obligatorios.","Revise el nombre de la categoría.");
+            $this->view->showError("Obligatory values missing","Check the category name.");
             die();
         }
         // ¿esto sería necesario?
@@ -45,7 +49,7 @@ class CategController {
             header('Location: '. BASE_URL ."categories");
         }
         else {
-            $this->view->showError("No se pudo realizar la consulta.","Puede que falten datos o sean inválidos.");
+            $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
     }
 
@@ -69,7 +73,7 @@ class CategController {
         $details = $_POST['categDetails'];
 
         if(empty($name)) {
-            $this->view->showError("Faltan datos obligatorios.","Revise el nombre de la categoría.");
+            $this->view->showError("Obligatory values missing","Check the category name.");
             die();
         }
 
@@ -82,9 +86,23 @@ class CategController {
             header('Location: '. BASE_URL ."categories");
         }
         else {
-            $this->view->showError("No se pudo realizar la consulta.","Puede que falten datos o sean inválidos.");
+            $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
         
+    }
+
+    /**
+     * Borra una categoría por ID.
+     */
+
+    public function deleteCategory($id) {
+        $success = $this->model->deleteCateg($id);
+        if($success) {
+            header('Location:'. BASE_URL .'categories');
+        }
+        else {
+            $this->view->showError("This category could not be removed","Please verify no instruments are associated with it.");
+        }
     }
 
 }
