@@ -1,3 +1,5 @@
+{* Formulario para crear o editar instrumentos *}
+
 <div class="form-group">
     <label>Name:</label>
     <input type="text" name="insName" placeholder="Name" class="form-control">

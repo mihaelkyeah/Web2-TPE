@@ -4,7 +4,12 @@
         <p>{$category->categ_desc}</p>
         <a href="instruments/{$category->id_categ}">Show instruments of this category</a>
     </div>
-    {* Verificación de si es admin *}
-    <hr style="width:90%; margin: 30 auto">
-    {include 'templates/edit_category.tpl'}
+    
+    {* Bloque reservado para administrador *}
+    {if (isset($isadmin)) and ($isadmin eq 1)}
+
+        <hr class="divideFormAdmin">
+        {include 'templates/edit_category.tpl'}
+
+    {/if}
 {include 'templates/footer.tpl'}

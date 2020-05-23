@@ -3,13 +3,7 @@
 
 class CategModel {
 
-    /**
-     * --------------------------------------------
-     * ¿Cómo hago para no tener que copiar y pegar todo este código?
-     * (private $db y la función del constructor)
-     * --------------------------------------------
-     */
-
+    // TODO: implementar herencia para no repetir código de conexión
     private $db;
 
     public function __construct() {
@@ -47,25 +41,19 @@ class CategModel {
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
-    /**
-     * Agrega una categoría nueva
-     */
+    // Agrega una categoría nueva.
     public function saveCateg($name,$details) {
         $query = $this->db->prepare('INSERT INTO `ins_category` (`categ_name`, `categ_desc`) VALUES (?, ?)');
         return ($query->execute([$name,$details]));
     }
 
-    /**
-     * Actualiza una categoría por id
-     */
+    // Actualiza una categoría por ID
     public function updateCateg($name,$details,$id) {
         $query = $this->db->prepare('UPDATE `ins_category` SET `categ_name` = ?, `categ_desc` = ? WHERE `ins_category`.`id_categ` = ?');
         return ($query->execute([$name,$details,$id]));
     }
 
-    /**
-     * Borra una categoría por id
-     */
+    // Borra una categoría por ID
     public function deleteCateg($id) {
         $query = $this->db->prepare('DELETE FROM `ins_category` WHERE `id_categ` = ?');
         return ($query->execute([$id]));

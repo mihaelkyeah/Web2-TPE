@@ -1,0 +1,50 @@
+/* Línea horizontal para separar los formularios reservados para administradores */
+hr .divideForAdmin {
+    width:90%;
+    margin: 30 auto;
+}
+
+/* Pie de página pegado al fondo de la ventana */
+footer {
+    position: fixed;
+    width: 100%;
+    bottom: 0;
+}
+
+/* Cuerpo de página con un margen para que el pie de página no tape el contenido */
+.main {
+    min-height: 100%;
+    margin-bottom: 100px;
+}
+
+/* Contenedor de texto y elementos varios (alternativa al container de bootstrap) */
+.widerContainer {
+    margin: 10px;
+}
+
+.widerContainer p {
+    text-indent: 1em;
+}
+
+/* Botones */
+.centerButton {
+    text-align: center;
+    margin: 10px auto;
+}
+
+.buttonContainer {
+    margin: 10px;
+}
+
+/* Fondo y otros */
+body {
+    background-image: url("../img/background.jpg");
+    background-size: cover;
+}
+
+.imgBanner {
+    height: 200px;
+    object-fit: cover;
+    object-position: 0 50%;
+    width: 100%;
+}

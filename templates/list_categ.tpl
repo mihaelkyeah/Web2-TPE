@@ -1,5 +1,7 @@
+{* Lista de categorías *}
+
 {include file='templates/header.tpl'}
-<div>
+<div class=container>
     <ul class="list-group list-group-flush">
         {foreach from=$categories item=category}
             <li class="list-group-item">
@@ -8,6 +10,10 @@
             </li>
         {/foreach}
     </ul>
-    <a href="formnew/category">Create category</a>
 </div>
+{if (isset($isadmin)) and ($isadmin eq 1)}
+<div class="centerButton">
+    <a href="formnew/category" class="btn btn-warning">Create category</a>
+</div>
+{/if}
 {include file='templates/footer.tpl'}

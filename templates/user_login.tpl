@@ -1,3 +1,5 @@
+{* Autenticación / inicio de sesión *}
+
 {include 'templates/header.tpl'}
 
 <div class="container">

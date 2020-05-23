@@ -1,5 +1,5 @@
 <?php
-// controlador: coordinador entre vista y modelo
+// controlador: coordinador entre vista y modelo (categorías)
 
 include_once('models/CategModel.php');
 include_once('views/CategView.php');
@@ -14,22 +14,25 @@ class CategController {
         $this->view = new CategView();
     }
 
+    // Muestra todas las categorías
     public function showAllCategory() {
         $categories = $this->model->getAllCateg();
         $this->view->viewCategories($categories);
     }
 
+    // Muestra una categoría por ID
     public function showCategoryDetail($id) {
         $category = $this->model->getCateg($id);
         $this->view->viewCategDetail($category);
     }
 
+    // Muestra el formulario para agregar una categoría nueva
     public function showFormCategory() {
         $this->view->showFormCateg();
     }
 
     /**
-     * Agrega una categoría incluyendo su nombre y descripción.
+     * Agrega una categoría incluyendo su nombre y descripción
      */
     public function addCategory() {
         $name = $_POST['categName'];
@@ -56,17 +59,14 @@ class CategController {
     /**
      * @return array
      * Trae todas las categorías para que el router las envíe a las vistas de instrumentos
-     * individuales o por categoría.
+     * individuales o por categoría
      */
     public function getCategoryArray() {
         $categories = $this->model->getAllCateg();
         return $categories;
     }
 
-    /**
-     * Actualiza una categoría por ID.
-     */
-
+    // Actualiza una categoría por ID
     public function updateCategory($id) {
         
         $name = $_POST['categName'];
@@ -91,10 +91,7 @@ class CategController {
         
     }
 
-    /**
-     * Borra una categoría por ID.
-     */
-
+    // Borra una categoría por ID
     public function deleteCategory($id) {
         $success = $this->model->deleteCateg($id);
         if($success) {
