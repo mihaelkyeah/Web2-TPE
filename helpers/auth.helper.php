@@ -28,6 +28,14 @@ class AuthHelper {
             return null;
     }
 
+    static public function getUserAdmin() {
+        self::start();
+        if(isset($_SESSION['ISADMIN']))
+            return($_SESSION['ISADMIN']);
+        else
+            return null;
+    }
+
     static public function getLoggedIn() {
         if(!isset($_SESSION['ISLOGGED'])) {
             header('Location:' .BASE_URL. 'login');

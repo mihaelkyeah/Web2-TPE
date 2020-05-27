@@ -1,55 +1,41 @@
 <?php
 // vista: interfaz del usuario (frontend): categorías
-// TODO: IMPLEMENTAR HERENCIA
-require_once('libs/Smarty.class.php');
+require_once('views/View.php');
 
-class CategView {
-
-    // ====== INICIO BLOQUE A HEREDAR DE VIEW.PHP ======
+class CategView extends View {
 
     private $smarty;
 
     function __construct() {
-        $username = AuthHelper::getLoggedUserName();
-        $this->smarty = new Smarty();
-        $this->smarty->assign('baseURL',BASE_URL);
-        $this->smarty->assign('username',$username);
-        if(isset($_SESSION['ISADMIN']))
-            $this->smarty->assign('isadmin',$_SESSION['ISADMIN']);
+        parent::__construct();
+        
+        $isadmin = AuthHelper::getUserAdmin();
+        if(isset($isadmin))
+            $this->getSmarty()->assign('isadmin',$isadmin);
     }
-
-    public function showError($msg1,$msg2) {
-        $this->smarty->assign('pageName','Error');
-        $this->smarty->assign('pageTitle','Error');
-        $this->smarty->assign('msg1',$msg1);
-        $this->smarty->assign('msg2',$msg2);
-        $this->smarty->display('templates/error.tpl');
-    }
-
-    // ====== FIN BLOQUE A HEREDAR DE VIEW.PHP ======
 
     // Muestra todas las categorías
     function viewCategories($categories) {
-        $this->smarty->assign('pageName','Categories');
-        $this->smarty->assign('pageTitle','Categories');
-        $this->smarty->assign('categories',$categories);
-        $this->smarty->display('templates/list_categ.tpl');
+        $this->getSmarty()->assign('pageName','Categories');
+        $this->getSmarty()->assign('pageTitle','Categories');
+        $this->getSmarty()->assign('categories',$categories);
+        $this->getSmarty()->display('templates/list_categ.tpl');
     }
 
     // Muestra detalles de una categoría
     function viewCategDetail($category) {
-        $this->smarty->assign('pageName','Category details: '.$category->categ_name);
-        $this->smarty->assign('pageTitle','Category details');
-        $this->smarty->assign('category',$category);
-        $this->smarty->display('templates/detail_categ.tpl');
+        $this->getSmarty()->assign('pageName','Category details: '.$category->categ_name);
+        $this->getSmarty()->assign('pageTitle','Category details');
+        $this->getSmarty()->assign('category',$category);
+        $this->getSmarty()->display('templates/detail_categ.tpl');
     }
 
     // Muestra el formulario para crear una categoría nueva
     public function showFormCateg() {
-        $this->smarty->assign('pageName','Crate new category');
-        $this->smarty->assign('pageTitle','New entry');
-        $this->smarty->assign('type','category');
-        $this->smarty->display('templates/new_entry.tpl');
+        $this->getSmarty()->assign('pageName','Crate new category');
+        $this->getSmarty()->assign('pageTitle','New entry');
+        $this->getSmarty()->assign('type','category');
+        $this->getSmarty()->display('templates/new_entry.tpl');
     }
 
 }
