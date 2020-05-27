@@ -28,6 +28,7 @@ class CategController {
 
     // Muestra el formulario para agregar una categoría nueva
     public function showFormCategory() {
+        AuthHelper::getLoggedIn();
         $this->view->showFormCateg();
     }
 

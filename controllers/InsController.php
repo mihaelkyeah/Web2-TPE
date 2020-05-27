@@ -45,6 +45,7 @@ class InsController {
 
     // Muestra el formulario para crear un instrumento desde cero
     public function showFormInstrument($categoryArray) {
+        AuthHelper::getLoggedIn();
         $this->view->showFormIns($categoryArray);
     }
 

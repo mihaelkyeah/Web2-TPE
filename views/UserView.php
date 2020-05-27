@@ -11,8 +11,7 @@ class UserView {
     private $smarty;
 
     function __construct() {
-        $authHelper = new AuthHelper();
-        $username = $authHelper->getLoggedUsername();
+        $username = AuthHelper::getLoggedUserName();
         $this->smarty = new Smarty();
         $this->smarty->assign('baseURL',BASE_URL);
         $this->smarty->assign('username',$username);

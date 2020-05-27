@@ -33,10 +33,7 @@ class UserController {
             $userDB = $this->model->getUserByUsername($user);
 
             if(!empty($userDB) && password_verify($pass, $userDB->pass)) {
-                session_start();
-                $_SESSION['ID USER'] = $userDB->id_user;
-                $_SESSION['USERNAME'] = $userDB->username;
-                $_SESSION['ISADMIN'] = $userDB->is_admin;
+                AuthHelper::login($userDB);
                 header('Location: '. BASE_URL .'home');
                 // $msg = ("Welcome, ".$userDB->username); (*)
                 // $this->view->showHome($msg); (*)
@@ -54,18 +51,13 @@ class UserController {
 
     // Muestra el panel de control del usuario actual
     public function viewProfile() {
-        if(isset($_SESSION['ID USER']) && isset($_SESSION['ISADMIN'])) {
-            $this->view->viewProfile(($_SESSION['ID USER']), ($_SESSION['ISADMIN']));
-        }
-        else {
-            $this->view->viewProfile(null, null);
-        }
+        AuthHelper::getLoggedIn();
+        $this->view->viewProfile(($_SESSION['ID USER']), ($_SESSION['ISADMIN']));
     }
 
     // Cierre de sesión
     public function logout() {
-        session_start();
-        session_destroy();
+        AuthHelper::logout();
         // $this->view->showHome("You have logged out."); (*)
         header('Location: '. BASE_URL .'home');
     }
