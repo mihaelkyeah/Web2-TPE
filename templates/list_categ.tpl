@@ -11,7 +11,7 @@
         {/foreach}
     </ul>
 </div>
-{if (isset($isadmin)) and ($isadmin eq 1)}
+{if (isset($isadmin)) and ({$isadmin} eq 1)}
 <div class="centerButton">
     <a href="formnew/category" class="btn btn-warning">Create category</a>
 </div>

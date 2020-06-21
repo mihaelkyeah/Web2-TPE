@@ -1,17 +1,18 @@
 <?php
 // controlador: coordinador entre vista y modelo (usuarios)
 
+require_once('controllers/Controller.php');
 require_once('views/UserView.php');
 require_once('models/UserModel.php');
 
-class UserController {
+class UserController extends Controller {
 
     private $model;
     private $view;
-    public $is_admin;
 
     public function __construct() {
-        $this->view = new UserView();
+        parent::__construct();
+        $this->view = new UserView($this->isadmin);
         $this->model = new UserModel();
     }
 
@@ -52,7 +53,7 @@ class UserController {
     // Muestra el panel de control del usuario actual
     public function viewProfile() {
         AuthHelper::getLoggedIn();
-        $this->view->viewProfile(($_SESSION['ID USER']), ($_SESSION['ISADMIN']));
+        $this->view->viewProfile(($_SESSION['ID USER']), $this->isadmin);
     }
 
     // Cierre de sesión

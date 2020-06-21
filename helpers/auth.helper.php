@@ -43,6 +43,19 @@ class AuthHelper {
         }
     }
 
+    static public function getPermission() {
+        self::start();
+        $isadmin = AuthHelper::getUserAdmin();
+        if($isadmin == "0" || $isadmin == null) {
+            /**
+             * ¿Qué pasa exactamente cuando ya hay un usuario no administrador logueado,
+             * y piso esa sesión logueándome con una cuenta de administrador?
+             */
+            header('Location:' .BASE_URL. 'login');
+            die;
+        }
+    }
+
     static public function logout() {
         self::start();
         session_destroy();

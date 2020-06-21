@@ -4,18 +4,17 @@ require_once('views/View.php');
 
 class CategView extends View {
 
-    private $smarty;
+    public $isadmin;
 
-    function __construct() {
+    function __construct($isadmin = null) {
         parent::__construct();
-        
-        $isadmin = AuthHelper::getUserAdmin();
         if(isset($isadmin))
-            $this->getSmarty()->assign('isadmin',$isadmin);
+            $this->isadmin = $isadmin;
+            $this->getSmarty()->assign('isadmin',$this->isadmin);
     }
 
     // Muestra todas las categorías
-    function viewCategories($categories) {
+    function viewCategories($categories,$isadmin) {
         $this->getSmarty()->assign('pageName','Categories');
         $this->getSmarty()->assign('pageTitle','Categories');
         $this->getSmarty()->assign('categories',$categories);
@@ -23,7 +22,7 @@ class CategView extends View {
     }
 
     // Muestra detalles de una categoría
-    function viewCategDetail($category) {
+    function viewCategDetail($category,$isadmin) {
         $this->getSmarty()->assign('pageName','Category details: '.$category->categ_name);
         $this->getSmarty()->assign('pageTitle','Category details');
         $this->getSmarty()->assign('category',$category);

@@ -12,22 +12,6 @@ if($_GET['action'] == '') {
 
 $urlParts = explode('/', $_GET['action']);
 
-/**
- * ARREGLO DE CATEGORÍAS
- * 
- * Para evitar que el controller de instrumentos se comunique con el modelo de categorías,
- * creé un arreglo de categorías que se obtiene a través del router,
- * y luego se envía a distintos métodos del controlador de instrumentos
- * para poder mostrar los nombres de las categorías al mostrar instrumentos por categoría,
- * y también para poder seleccionar la categoría que va a tener un instrumento nuevo o editado.
- */
-$categoryArray = initCategArray();
-function initCategArray() {
-    $controller = new CategController();
-    $categArray = $controller->getCategoryArray();
-    return $categArray;
-}
-
 // ====== Operaciones asignadas a las URL ======
 
 switch($urlParts[0]) {
@@ -63,15 +47,7 @@ switch($urlParts[0]) {
             $controller->showAllInstruments();
         }
         else {
-            /**
-             * Como los ID de las categorías pueden variar al crear algunas y borrar otras,
-             * y no siempre van a guardar una relación con el índice del arreglo que las contiene,
-             * decidí usar array_search para encontrar el índice del arreglo de categorías
-             * que contenga la categoría con el id_categ correspondiente.
-             */
-            $categIndex = array_search($urlParts[1], array_column($categoryArray,'id_categ'));
-            $category = $categoryArray[$categIndex]->categ_name;
-            $controller->showCategoryInstruments($urlParts[1],$category);
+            $controller->showCategoryInstruments($urlParts[1]);
         }
     break;
     case 'categories':
@@ -82,7 +58,7 @@ switch($urlParts[0]) {
         switch($urlParts[1]) {
             case 'instrument':
                 $controller = new InsController();
-                $controller->showInstrumentDetail($urlParts[2],$categoryArray);
+                $controller->showInstrumentDetail($urlParts[2]);
             break;
             case 'category':
                 $controller = new CategController();
@@ -100,7 +76,7 @@ switch($urlParts[0]) {
         switch($urlParts[1]) {
             case 'instrument':
                 $controller = new InsController();
-                $controller->showFormInstrument($categoryArray);
+                $controller->showFormInstrument();
             break;
             case 'category':
                 $controller = new CategController();
@@ -157,6 +133,11 @@ switch($urlParts[0]) {
         }
     break;
 
+    case 'excelsior_club':{
+        $controller = new UserController();
+        $controller->viewClub();
+    }
+    break;
     default:
         echo "<h1>Error 404 - Page not found </h1>";
     break;

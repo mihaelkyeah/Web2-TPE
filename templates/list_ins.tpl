@@ -28,11 +28,11 @@
             {/if}
         {/foreach}
     </ul>
+    {if (isset($isadmin)) and ({$isadmin} eq 1)}
+        <div class="centerButton">
+            <a href="formnew/instrument" class="btn btn-warning">Create instrument</a>
+        </div>
+    {/if}
 {/if}
 </div>
-{if (isset($isadmin)) and ($isadmin eq 1)}
-<div class="centerButton">
-    <a href="formnew/instrument" class="btn btn-warning">Create instrument</a>
-</div>
-{/if}
 {include file='templates/footer.tpl'}

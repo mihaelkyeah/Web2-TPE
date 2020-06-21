@@ -4,16 +4,15 @@ require_once('views/View.php');
 
 class InsView extends View {
 
-    function __construct() {
+    function __construct($isadmin = null) {
         parent::__construct();
-        
-        $isadmin = AuthHelper::getUserAdmin();
-        if(isset($isadmin))
+        if(isset($isadmin)) {
             $this->getSmarty()->assign('isadmin',$isadmin);
+        }
     }
 
     // Muestra instrumentos por categoría
-    public function viewCategIns($instruments,$category) {
+    public function viewCategIns($instruments,$category,$isadmin) {
         $this->getSmarty()->assign('pageName','Instruments by category: '.$category);
         $this->getSmarty()->assign('pageTitle',$category);
         $this->getSmarty()->assign('instruments',$instruments);
@@ -21,7 +20,7 @@ class InsView extends View {
     }
 
     // Muestra todos los instrumentos
-    public function viewAllIns($instruments) {
+    public function viewAllIns($instruments,$isadmin) {
         $this->getSmarty()->assign('pageName','All instruments');
         $this->getSmarty()->assign('pageTitle','All instruments');
         $this->getSmarty()->assign('instruments',$instruments);
@@ -29,7 +28,7 @@ class InsView extends View {
     }
 
     // Muestra los detalles de un instrumento
-    public function viewInsDetail($instrument,$categoryArray,$categIndex) {
+    public function viewInsDetail($instrument,$categoryArray,$categIndex,$isadmin) {
         $this->getSmarty()->assign('pageName','Instrument details: '.$instrument->ins_name);
         $this->getSmarty()->assign('pageTitle','Instrument details');
         $this->getSmarty()->assign('instrument',$instrument);

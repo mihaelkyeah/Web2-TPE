@@ -1,34 +1,36 @@
 <?php
 // controlador: coordinador entre vista y modelo (categorías)
 
-include_once('models/CategModel.php');
-include_once('views/CategView.php');
+require_once('controllers/Controller.php');
+require_once('models/CategModel.php');
+require_once('views/CategView.php');
 
-class CategController {
+class CategController extends Controller {
 
     private $model;
     private $view;
 
     public function __construct() {
+        parent::__construct();
         $this->model = new CategModel();
-        $this->view = new CategView();
+        $this->view = new CategView($this->isadmin);
     }
 
     // Muestra todas las categorías
     public function showAllCategory() {
         $categories = $this->model->getAllCateg();
-        $this->view->viewCategories($categories);
+        $this->view->viewCategories($categories,$this->isadmin);
     }
 
     // Muestra una categoría por ID
     public function showCategoryDetail($id) {
         $category = $this->model->getCateg($id);
-        $this->view->viewCategDetail($category);
+        $this->view->viewCategDetail($category,$this->isadmin);
     }
 
     // Muestra el formulario para agregar una categoría nueva
     public function showFormCategory() {
-        AuthHelper::getLoggedIn();
+        AuthHelper::getPermission();
         $this->view->showFormCateg();
     }
 
@@ -48,6 +50,7 @@ class CategController {
             $details = "";
         }
 
+        AuthHelper::getLoggedIn();
         $success = $this->model->saveCateg($name, $details);
         if($success) {
             header('Location: '. BASE_URL ."categories");
@@ -55,16 +58,6 @@ class CategController {
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
-    }
-
-    /**
-     * @return array
-     * Trae todas las categorías para que el router las envíe a las vistas de instrumentos
-     * individuales o por categoría
-     */
-    public function getCategoryArray() {
-        $categories = $this->model->getAllCateg();
-        return $categories;
     }
 
     // Actualiza una categoría por ID
@@ -82,6 +75,7 @@ class CategController {
             $details = "";
         }
 
+        AuthHelper::getLoggedIn();
         $success = $this->model->updateCateg($name, $details, $id);
         if($success) {
             header('Location: '. BASE_URL ."categories");
@@ -94,6 +88,8 @@ class CategController {
 
     // Borra una categoría por ID
     public function deleteCategory($id) {
+
+        AuthHelper::getLoggedIn();
         $success = $this->model->deleteCateg($id);
         if($success) {
             header('Location:'. BASE_URL .'categories');
@@ -101,6 +97,7 @@ class CategController {
         else {
             $this->view->showError("This category could not be removed","Please verify no instruments are associated with it.");
         }
+
     }
 
 }

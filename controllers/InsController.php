@@ -1,17 +1,37 @@
 <?php
 // controlador: coordinador entre vista y modelo (instrumentos)
 
+require_once('controllers/Controller.php');
 require_once('models/InsModel.php');
+require_once('models/CategModel.php');
 require_once('views/InsView.php');
 
-class InsController {
+class InsController extends Controller {
 
     private $model;
     private $view;
 
+    /**
+     * Inicialización del modelo de categorías y el arreglo de categorías:
+     * el modelo de categorías va a ser necesario para traer un arreglo de objetos
+     * con todas las categorías que van a hacer falta para asignar una categoría
+     * a un instrumento nuevo en su creación, o para modificar la de un instrumento
+     * existente.
+     */
+    private $catModel;
+    public $categoryArray;
+
+    private function initCategArray() {
+        $this->catModel = new CategModel();
+        $categArray = $this->catModel->getAllCateg();
+        return $categArray;
+    }
+
     public function __construct() {
+        parent::__construct();
+        $this->categoryArray = $this->initCategArray();
         $this->model = new InsModel();
-        $this->view = new InsView();
+        $this->view = new InsView($this->isadmin);
     }
 
     /**
@@ -19,9 +39,13 @@ class InsController {
      * pasada por parámetro.
      * Luego lo muestra por pantalla.
      */
-    public function showCategoryInstruments($idCateg,$category) {
+    public function showCategoryInstruments($idCateg) {
+        $categIndex = array_search($idCateg, array_column($this->categoryArray,'id_categ'));
+
+        $category = $this->categoryArray[$categIndex]->categ_name;
         $instruments = $this->model->getCategoryIns($idCateg);
-        $this->view->viewCategIns($instruments,$category);
+
+        $this->view->viewCategIns($instruments,$category,$this->isadmin);
     }
 
     /**
@@ -30,23 +54,24 @@ class InsController {
      */
     public function showAllInstruments() {
         $instruments = $this->model->getAllIns();
-        $this->view->viewAllIns($instruments);
+        $this->view->viewAllIns($instruments,$this->isadmin);
     }
 
     /**
      * Trae un objeto correspondiente a un instrumento a través de su ID pasado por parámetro.
      * Luego lo muestra por pantalla.
      */
-    public function showInstrumentDetail($id,$categoryArray) {
+    public function showInstrumentDetail($id) {
+        // TODO: Implementar verificación de admin para el form desde acá
         $instrument = $this->model->getIns($id);
-        $categIndex = array_search(($instrument->id_categ_fk), array_column($categoryArray,'id_categ'));
-        $this->view->viewInsDetail($instrument,$categoryArray,$categIndex);
+        $categIndex = array_search(($instrument->id_categ_fk), array_column($this->categoryArray,'id_categ'));
+        $this->view->viewInsDetail($instrument,$this->categoryArray,$categIndex,$this->isadmin);
     }
 
     // Muestra el formulario para crear un instrumento desde cero
-    public function showFormInstrument($categoryArray) {
-        AuthHelper::getLoggedIn();
-        $this->view->showFormIns($categoryArray);
+    public function showFormInstrument() {
+        AuthHelper::getPermission();
+        $this->view->showFormIns($this->categoryArray);
     }
 
     /**
@@ -64,6 +89,7 @@ class InsController {
             die;
         }
 
+        AuthHelper::getLoggedIn();
         $success = $this->model->saveIns($name, $price, $details, $insCateg);
         if($success) {
             header('Location: '. BASE_URL .'instruments');
@@ -87,10 +113,11 @@ class InsController {
             die();
         }
         
-        if(empty($details)) {
+        if(empty($details)) { // TODO: borrar
             $details = "";
         }
 
+        AuthHelper::getLoggedIn();
         $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
         if($success) {
             header('Location: '. BASE_URL .'instruments');
@@ -103,8 +130,16 @@ class InsController {
 
     // Borra un instrumento por ID
     public function deleteInstrument($id) {
-        $this->model->deleteIns($id);
-        header('Location:'. BASE_URL .'instruments');
+        
+        AuthHelper::getLoggedIn();
+        $success = $this->model->deleteIns($id);
+        if($success) {
+            header('Location:'. BASE_URL .'instruments');
+        }
+        else {  // No sé si esto sería necesario; que muestre el error si no se puede borrar un instrumento.
+            $this->view->showError("The instrument could not be removed. There was an unhandled error.",var_dump($success));
+        }
+
     }
 
 }
