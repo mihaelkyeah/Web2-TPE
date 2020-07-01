@@ -90,7 +90,17 @@ class InsController extends Controller {
         }
 
         AuthHelper::getLoggedIn();
-        $success = $this->model->saveIns($name, $price, $details, $insCateg);
+
+        // if($this->ifImage) {
+        if (($_FILES['insImg']['type'] == "image/jpg") ||
+            ($_FILES['insImg']['type'] == "image/jpeg") ||
+            ($_FILES['insImg']['type'] == "image/png")) {
+            $success = $this->model->saveInsImg($name, $price, $details, $insCateg);
+        }
+        else {
+            $success = $this->model->saveIns($name, $price, $details, $insCateg);
+        }
+
         if($success) {
             header('Location: '. BASE_URL .'instruments');
         }
@@ -112,13 +122,19 @@ class InsController extends Controller {
             $this->view->showError("Obligatory values missing","Check the name, price and category fields.");
             die();
         }
-        
-        if(empty($details)) { // TODO: borrar
-            $details = "";
-        }
 
         AuthHelper::getLoggedIn();
-        $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
+
+        // if($this->ifImage()) {
+        if (($_FILES['insImg']['type'] == "image/jpg") ||
+        ($_FILES['insImg']['type'] == "image/jpeg") ||
+        ($_FILES['insImg']['type'] == "image/png")) {
+            $success = $this->model->updateInsImg($name, $price, $details, $insCateg, $id);
+        }
+        else {
+            $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
+        }
+        
         if($success) {
             header('Location: '. BASE_URL .'instruments');
         }
@@ -126,6 +142,20 @@ class InsController extends Controller {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
         
+    }
+
+    // Verifica si un archivo válido de imagen fue subido mediante el formulario HTML
+    // (para creación o edición de entrada)
+    // TODO: Arreglar (no me salió)
+    public function ifImage() {
+        if (($_FILES['insImg']['type'] == "image/jpg") ||
+            ($_FILES['insImg']['type'] == "image/jpeg") ||
+            ($_FILES['insImg']['type'] == "image/png")) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
     // Borra un instrumento por ID

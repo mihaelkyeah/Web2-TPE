@@ -6,7 +6,7 @@
         {if $type eq "instrument"}
             instrument</h2>
             <div class="container">
-                <form method="POST" action="create/instrument">
+                <form method="POST" action="create/instrument" enctype="multipart/form-data">
                     {include 'templates/form_ins.tpl'}
                     <input type="submit" value="Create instrument" class="btn btn-warning">
                 </form>

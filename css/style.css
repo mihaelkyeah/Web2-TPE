@@ -36,6 +36,14 @@ footer {
     margin: 10px;
 }
 
+/* Imágenes de los instrumentos */
+
+.insImg {
+    /* TODO: Alinear la imagen */
+    margin: 10px auto;
+    object-fit: contain;
+}
+
 /* Fondo y otros */
 body {
     background-image: url("../img/background.jpg");

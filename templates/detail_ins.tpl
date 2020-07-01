@@ -7,6 +7,11 @@
         <h3>Description:</h3>
         <p>{$instrument->ins_desc}</p>
         <h3>Price: {$instrument->price}</h3>
+        {if $instrument->image <> ""}
+            <div class="insImg">
+                <img src="./{$instrument->image}" class="img-responsive img-rounded" height=240>
+            </div>
+        {/if}
     </div>
 
     {* Bloque reservado para administrador *}

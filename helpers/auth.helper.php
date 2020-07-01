@@ -48,8 +48,8 @@ class AuthHelper {
         $isadmin = AuthHelper::getUserAdmin();
         if($isadmin == "0" || $isadmin == null) {
             /**
-             * ¿Qué pasa exactamente cuando ya hay un usuario no administrador logueado,
-             * y piso esa sesión logueándome con una cuenta de administrador?
+             * Si se inicia sesión como administrador sobre una sesión de usuario normal,
+             * se sobreescribe la sesión anterior.
              */
             header('Location:' .BASE_URL. 'login');
             die;
