@@ -23,7 +23,7 @@ class CategView extends View {
 
     // Muestra detalles de una categoría
     function viewCategDetail($category,$isadmin) {
-        $this->getSmarty()->assign('pageName','Category details: '.$category->categ_name);
+        $this->getSmarty()->assign('pageName','Category details: '.$category->name);
         $this->getSmarty()->assign('pageTitle','Category details');
         $this->getSmarty()->assign('category',$category);
         $this->getSmarty()->display('templates/detail_categ.tpl');

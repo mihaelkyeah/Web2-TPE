@@ -2,30 +2,44 @@
 
 <div class="form-group">
     <label>Name:</label>
-    <input type="text" name="insName" id="insName" placeholder="Name" class="form-control">
+    <input type="text" name="insName" id="insName" placeholder="Name" class="form-control"
+    {if isset($instrument)}
+        value="{$instrument->name}"
+    {/if}
+    >
 </div>
 <div class="form-group">
     <label>Category</label>
-    <select name="insCateg" class="form-control">
+    <select name="insCateg" id="insCateg" class="form-control">
         {foreach from=$categArray item=category}
-            <option value={$category->id_categ}>{$category->categ_name}</option>
+            <option value={$category->id}
+            {if (isset($instrument)) && ({$instrument->id_categ_fk} eq {$category->id})}
+                selected
+            {/if}
+            >
+            {$category->name}
+            </option>
         {/foreach}
-        {*
-        En un principio había usado el índice del arreglo $category para las option value=...'s,
-        pero nuevamente me encontré con el problema de que los id's no guardan relación
-        con las posiciones de las categorías en el arreglo.
-        Por ende, los valores a elegir en el select van a ser
-        los id's correspondientes a cada categoría por la que pasa el foreach.
-        *}
     </select>
 </div>
 <div class="form-group">
     <label>Description:</label><br>
-    <textarea name="insDesc" id="insDesc" rows="3" cols="25" placeholder="Description" class="form-control"></textarea>
+    <textarea name="insDetails" id="insDetails" rows="3" cols="25" maxlength="255" placeholder="Description" class="form-control"
+    >{if isset($instrument)}{$instrument->details}{/if}</textarea>
+
+    {* TODO: Implementar contador hacia atrás de caracteres para el textarea *}
+    {* <p id="charWarning"><span id="categChars">255</span> characters remaining.</p> *}
+
 </div>
 <div class="form-group">
     <label>Price:</label>
-    <input type="number" name="price" id="price" min="0" max="99999.99" step=".01" placeholder="Price" class="form-control">
+    <input type="number" name="price" id="price" min="0" max="99999.99" step=".01" placeholder="Price" class="form-control"
+    {if isset($instrument)}
+        value={$instrument->price}
+    {else}
+        value="0.00";
+    {/if}
+    >
 </div>
 <div class="form-group">
     <label>Image:</label><br>

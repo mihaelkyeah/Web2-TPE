@@ -16,6 +16,10 @@
             Yes
         {/if}
         </p>
-</p>
 </div>
+{if {$isadmin} eq 1}
+<div class=centerButton>
+    <a href="userlist" class="btn btn-warning">Manage users</a>
+</div>
+{/if}
 {include file='templates/footer.tpl'}

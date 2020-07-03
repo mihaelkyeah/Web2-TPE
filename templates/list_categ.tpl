@@ -5,8 +5,8 @@
     <ul class="list-group list-group-flush">
         {foreach from=$categories item=category}
             <li class="list-group-item">
-                <a href="details/category/{$category->id_categ}" class="btn btn-primary">{$category->categ_name}</a>
-                <a href="instruments/{$category->id_categ}" class="btn btn-link btn-sm">Show instruments of this category</a>
+                <a href="details/category/{$category->id}" class="btn btn-primary">{$category->name}</a>
+                <a href="instruments/{$category->id}" class="btn btn-link btn-sm">Show instruments of this category</a>
             </li>
         {/foreach}
     </ul>

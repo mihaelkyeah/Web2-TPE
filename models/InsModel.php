@@ -1,5 +1,5 @@
 <?php
-// modelo: acceso a BD; interacción directa con la tabla `instrument`
+// modelo: acceso a BD; interacción con la tabla `instrument`
 require_once('models/Model.php');
 
 class InsModel extends Model {
@@ -9,7 +9,7 @@ class InsModel extends Model {
      * Devuelve un instrumento por ID
      */
     public function getIns($id) {
-        $query = $this->getDb()->prepare('SELECT * FROM `instrument` WHERE `id_instrument` = ?');
+        $query = $this->getDb()->prepare('SELECT * FROM `instrument` WHERE `id` = ?');
         $query->execute([$id]);
         // ^ forma alternativa de tipear $query->execute(array($catId));
         return $query->fetch(PDO::FETCH_OBJ);
@@ -59,7 +59,7 @@ class InsModel extends Model {
      * Agrega un instrumento nuevo (con o sin imagen)
      */
     public function saveIns($name, $price, $details, $category, $image = null) {
-        $query = $this->getDb()->prepare('INSERT INTO `instrument` (`ins_name`, `price`, `ins_desc`, `id_categ_fk`, `image`) VALUES (?, ?, ?, ?, ?)');
+        $query = $this->getDb()->prepare('INSERT INTO `instrument` (`name`, `price`, `details`, `id_categ_fk`, `image`) VALUES (?, ?, ?, ?, ?)');
         return $query->execute([$name,$price,$details,$category,$image]);
     }
 
@@ -78,7 +78,7 @@ class InsModel extends Model {
      * Actualiza un instrumento por id
      */
     public function updateIns($name, $price, $details, $category, $id, $image = null) {
-        $query = $this->getDb()->prepare('UPDATE `instrument` SET `ins_name` = ?, `price` = ?, `ins_desc` = ?, `id_categ_fk` = ?, `image` = ? WHERE `instrument`.`id_instrument` = ?');
+        $query = $this->getDb()->prepare('UPDATE `instrument` SET `name` = ?, `price` = ?, `details` = ?, `id_categ_fk` = ?, `image` = ? WHERE `instrument`.`id` = ?');
         return $query->execute([$name,$price,$details,$category,$image,$id]);
     }
 
@@ -95,7 +95,7 @@ class InsModel extends Model {
      * Borra un instrumento por id
      */
     public function deleteIns($id) {
-        $query = $this->getDb()->prepare('DELETE FROM `instrument` WHERE `id_instrument` = ?');
+        $query = $this->getDb()->prepare('DELETE FROM `instrument` WHERE `id` = ?');
         return ($query->execute([$id]));
     }
 

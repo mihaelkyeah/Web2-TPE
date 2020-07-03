@@ -1,8 +1,8 @@
 {include 'templates/header.tpl'}
     <div class="container">
-        <h2>{$category->categ_name}</h2>
-        <p>{$category->categ_desc}</p>
-        <a href="instruments/{$category->id_categ}">Show instruments of this category</a>
+        <h2>{$category->name}</h2>
+        <p class="text-break">{$category->details}</p>
+        <a href="instruments/{$category->id}">Show instruments of this category</a>
     </div>
     
     {* Bloque reservado para administrador *}

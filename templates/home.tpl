@@ -41,9 +41,9 @@
         <h3>Contact us</h3>
         <p>If you have any questions or concerns, feel free to write us to any of the following addresses:</p>
         <ul>
+            <li><a href="mailto:lipsum@lipsum.com">corador@corador.com</a></li>
             <li><a href="mailto:lipsum@lipsum.com">lipsum@lipsum.com</a></li>
             <li><a href="mailto:lorem@ipsum.com">lorem@ipsum.com</a></li>
-            <li><a href="mailto:mihaelkyeah@gmail.com">mihaelkyeah@gmail.com</a></li>
         </ul>
 
         <h3>Special thanks</h3>

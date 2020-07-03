@@ -40,9 +40,9 @@ class InsController extends Controller {
      * Luego lo muestra por pantalla.
      */
     public function showCategoryInstruments($idCateg) {
-        $categIndex = array_search($idCateg, array_column($this->categoryArray,'id_categ'));
+        $categIndex = array_search($idCateg, array_column($this->categoryArray,'id'));
 
-        $category = $this->categoryArray[$categIndex]->categ_name;
+        $category = $this->categoryArray[$categIndex]->name;
         $instruments = $this->model->getCategoryIns($idCateg);
 
         $this->view->viewCategIns($instruments,$category,$this->isadmin);
@@ -64,7 +64,7 @@ class InsController extends Controller {
     public function showInstrumentDetail($id) {
         // TODO: Implementar verificación de admin para el form desde acá
         $instrument = $this->model->getIns($id);
-        $categIndex = array_search(($instrument->id_categ_fk), array_column($this->categoryArray,'id_categ'));
+        $categIndex = array_search(($instrument->id_categ_fk), array_column($this->categoryArray,'id'));
         $this->view->viewInsDetail($instrument,$this->categoryArray,$categIndex,$this->isadmin);
     }
 
@@ -80,9 +80,9 @@ class InsController extends Controller {
      */
     public function addInstrument() {
         $name = $_POST['insName'];
-        $price = $_POST['price'];
-        $details = $_POST['insDesc'];
-        $insCateg = $_POST['insCateg'];
+        $price = floatval($_POST['price']);
+        $details = $_POST['insDetails'];
+        $insCateg = intval($_POST['insCateg']);
 
         if(empty($name) || empty($price) || empty($insCateg)) {
             $this->view->showError("Obligatory values missing","Check the name, price and category fields.");
@@ -91,10 +91,7 @@ class InsController extends Controller {
 
         AuthHelper::getLoggedIn();
 
-        // if($this->ifImage) {
-        if (($_FILES['insImg']['type'] == "image/jpg") ||
-            ($_FILES['insImg']['type'] == "image/jpeg") ||
-            ($_FILES['insImg']['type'] == "image/png")) {
+        if($this->ifImage()) {
             $success = $this->model->saveInsImg($name, $price, $details, $insCateg);
         }
         else {
@@ -106,6 +103,7 @@ class InsController extends Controller {
         }
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
+            var_dump($name, $price, $details, $insCateg);
             die;
         }
     }
@@ -115,7 +113,7 @@ class InsController extends Controller {
         
         $name = $_POST['insName'];
         $price = floatval($_POST['price']);
-        $details = $_POST['insDesc'];
+        $details = $_POST['insDetails'];
         $insCateg = intval($_POST['insCateg']);
 
         if(empty($name) || empty($price) || empty($insCateg)) {
@@ -125,10 +123,7 @@ class InsController extends Controller {
 
         AuthHelper::getLoggedIn();
 
-        // if($this->ifImage()) {
-        if (($_FILES['insImg']['type'] == "image/jpg") ||
-        ($_FILES['insImg']['type'] == "image/jpeg") ||
-        ($_FILES['insImg']['type'] == "image/png")) {
+        if($this->ifImage()) {
             $success = $this->model->updateInsImg($name, $price, $details, $insCateg, $id);
         }
         else {
@@ -146,8 +141,7 @@ class InsController extends Controller {
 
     // Verifica si un archivo válido de imagen fue subido mediante el formulario HTML
     // (para creación o edición de entrada)
-    // TODO: Arreglar (no me salió)
-    public function ifImage() {
+    private function ifImage() {
         if (($_FILES['insImg']['type'] == "image/jpg") ||
             ($_FILES['insImg']['type'] == "image/jpeg") ||
             ($_FILES['insImg']['type'] == "image/png")) {

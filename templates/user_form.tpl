@@ -3,7 +3,13 @@
 {include 'templates/header.tpl'}
 
 <div class="container">
-    <form action="verify" method="POST">
+    <form
+        {if $formType eq true}
+            action="register"
+        {else if $formType eq false}
+            action="verify"
+        {/if}
+        method="POST">
         <div class = "form-group">
             <label>User</label>
             <input name="username" type="text" placeholder="Enter username" class="form-control">

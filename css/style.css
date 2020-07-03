@@ -26,6 +26,35 @@ footer {
     text-indent: 1em;
 }
 
+/* Clases específicas para mostrar los caracteres restantes en input's y/o textarea's */
+p .hidden {
+    display: none;
+}
+
+p .alert {
+    color: red;
+}
+
+/* Contenedores para el panel de administración de usuarios */
+.userContainer {
+    width:75%;
+    text-align: center;
+    margin: 10px auto;
+}
+
+.userListContainer {
+    margin: 5px;
+    display: inline-block;
+}
+
+.userListContainer .alignLeft {
+    text-align: left;
+}
+
+.userListcontainer .alignRight {
+    text-align: right;
+}
+
 /* Botones */
 .centerButton {
     text-align: center;

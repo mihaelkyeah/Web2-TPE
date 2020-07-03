@@ -33,6 +33,7 @@
                 <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}user">{$username} (control panel)</a></span>
                 <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}logout">Logout</a></span>
             {else}
+                <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}signup">Sign up</a></span>
                 <span class="navbar-text"><a class="nav-item nav-link" href="{$baseURL}login">Log in</a></span>
             {/if}
         </nav>

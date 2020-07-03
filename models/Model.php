@@ -1,5 +1,5 @@
 <?php
-
+// modelo: acceso a BD
 class Model {
 
     private $db;

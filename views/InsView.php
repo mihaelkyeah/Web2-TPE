@@ -29,7 +29,7 @@ class InsView extends View {
 
     // Muestra los detalles de un instrumento
     public function viewInsDetail($instrument,$categoryArray,$categIndex,$isadmin) {
-        $this->getSmarty()->assign('pageName','Instrument details: '.$instrument->ins_name);
+        $this->getSmarty()->assign('pageName','Instrument details: '.$instrument->name);
         $this->getSmarty()->assign('pageTitle','Instrument details');
         $this->getSmarty()->assign('instrument',$instrument);
         $this->getSmarty()->assign('categArray',$categoryArray);

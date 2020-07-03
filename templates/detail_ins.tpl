@@ -1,11 +1,11 @@
 {include 'templates/header.tpl'}
     <div class="container">
-        <h2>About the {$instrument->ins_name}</h2>
+        <h2>About the {$instrument->name}</h2>
         <img src="img/trebleclef.png">
         <h3>Category:</h3>
-        <a href="details/category/{$instrument->id_categ_fk}">{$categArray[$categIndex]->categ_name}</a>
+        <a href="details/category/{$instrument->id_categ_fk}">{$categArray[$categIndex]->name}</a>
         <h3>Description:</h3>
-        <p>{$instrument->ins_desc}</p>
+        <p class="text-break">{$instrument->details}</p>
         <h3>Price: {$instrument->price}</h3>
         {if $instrument->image <> ""}
             <div class="insImg">

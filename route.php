@@ -36,7 +36,38 @@ switch($urlParts[0]) {
     break;
     case 'user':
         $controller = new UserController();
-        $controller->viewProfile();
+        $controller->showProfile();
+    break;
+    case 'userlist':
+        $controller = new UserController();
+        $controller->showUsers();
+    break;
+    case 'admin': {
+        $controller = new UserController();
+        $adminTrueFalse = null;
+        switch($urlParts[1]) {
+            case 'add': {
+                $adminTrueFalse = 1; // o true?
+            }
+            break;
+            case 'remove': {
+                $adminTrueFalse = 0; // o false?
+            }
+            break;
+        }
+        $controller->addremoveAdmin($adminTrueFalse, $urlParts[2]);
+    }
+    case 'signup':
+        $controller = new UserController();
+        $controller->showSignUp();
+    break;
+    case 'register':
+        $controller = new UserController();
+        $controller->createUser();
+    break;
+    case 'makeadmin':
+        $controller = new UserController();
+        $controller->makeAdmin($urlParts[1]);
     break;
 
     // Navegación del sitio: instrumentos y categorías
@@ -133,11 +164,6 @@ switch($urlParts[0]) {
         }
     break;
 
-    case 'excelsior_club':{
-        $controller = new UserController();
-        $controller->viewClub();
-    }
-    break;
     default:
         echo "<h1>Error 404 - Page not found </h1>";
     break;

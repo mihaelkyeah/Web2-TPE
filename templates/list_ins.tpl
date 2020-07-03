@@ -17,8 +17,8 @@
                     <div class="card">
                         {*<img class="card-img-top" src="img/instrument.png" height=100 width=100 alt="Card image cap">*}
                         <div class="card-body">
-                            <a href="details/instrument/{$instrument->id_instrument}" class="card-title">{$instrument->ins_name}</a>
-                            <p class="card-text">{$instrument->ins_desc}</p>
+                            <a href="details/instrument/{$instrument->id}" class="card-title">{$instrument->name}</a>
+                            <p class="card-text">{$instrument->details}</p>
                         </div>
                     </div>
                 </div>

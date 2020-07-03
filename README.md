@@ -2,9 +2,9 @@
 
 Trabajo Práctico Especial Web 2 (TUDAI Lobería 1-2 - UNICEN 2020)
 
-## Primera entrega
+## Segunda entrega
 
-Entrega 1 del TPE
+Entrega 2 del TPE
 
 ### Alumno
 
