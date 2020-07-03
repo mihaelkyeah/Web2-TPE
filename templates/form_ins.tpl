@@ -36,8 +36,6 @@
     <input type="number" name="price" id="price" min="0" max="99999.99" step=".01" placeholder="Price" class="form-control"
     {if isset($instrument)}
         value={$instrument->price}
-    {else}
-        value="0.00";
     {/if}
     >
 </div>
