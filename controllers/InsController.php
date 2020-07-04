@@ -62,7 +62,6 @@ class InsController extends Controller {
      * Luego lo muestra por pantalla.
      */
     public function showInstrumentDetail($id) {
-        // TODO: Implementar verificación de admin para el form desde acá
         $instrument = $this->model->getIns($id);
         $categIndex = array_search(($instrument->id_categ_fk), array_column($this->categoryArray,'id'));
         $this->view->viewInsDetail($instrument,$this->categoryArray,$categIndex,$this->isadmin);

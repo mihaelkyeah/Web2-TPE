@@ -7,15 +7,15 @@
     <ul class="list-group list-group-flush">
     {foreach from=$users item=user}
         <li class="list-group-item">
-            <div class="userListContainer alignLeft">
-            {$user->username}
-            </div>
-            <div class="userListContainer alignRight">
+            <div class="userListContainer">
+                <span class="alignLeft">{$user->username}</span>
+                <span class="alignRight">
             {if ($user->admin) eq 0}
                 <a href="admin/add/{$user->id}"class="btn btn-primary">User</a>
             {else}
                 <a href="admin/remove/{$user->id}"class="btn btn-danger">Admin</a>
             {/if}
+                </span>
             </div>
         </li>
     {/foreach}

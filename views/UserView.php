@@ -10,7 +10,6 @@ class UserView extends View {
 
     // Muestra el panel de usuario
     function viewProfile($iduser,$isadmin) {
-        var_dump($isadmin);
         $this->getSmarty()->assign('pageName','User Control Panel');
         $this->getSmarty()->assign('pageTitle','User Control Panel');
         $this->getSmarty()->assign('iduser',$iduser);
@@ -44,8 +43,8 @@ class UserView extends View {
     }
 
     public function viewUserList($users) {
-        $this->getSmarty()->assign('pageName', 'Users List - Admin Control Panel');
-        $this->getSmarty()->assign('pageTitle', 'Users List');
+        $this->getSmarty()->assign('pageName', 'User List - Admin Control Panel');
+        $this->getSmarty()->assign('pageTitle', 'User list');
         $this->getSmarty()->assign('users',$users);
         $this->getSmarty()->display('templates/user_userList.tpl');
     }

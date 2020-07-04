@@ -29,10 +29,13 @@ class UserModel extends Model {
     /**
      * @return array
      * Devuelve un arreglo de objetos con todos los usuarios de la tabla `user`.
+     * Selecciona a todos los usuarios menos el administrador principal.
      */
     public function getUsers() {
-        $query = $this->getDb()->prepare('SELECT * FROM `user` ORDER BY `username`');
-        $query->execute();
+        $query = $this->getDb()->prepare('SELECT `username`, `admin` FROM `user` WHERE `id` != ? ORDER BY `username`');
+        // TODO: Optimizar y refactorizar método para traer lista de usuarios
+        $idAdmin = 1;
+        $query->execute([$idAdmin]);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 

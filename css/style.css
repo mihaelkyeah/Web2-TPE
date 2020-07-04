@@ -43,15 +43,18 @@ p .alert {
 }
 
 .userListContainer {
+    display: grid;
     margin: 5px;
-    display: inline-block;
+    grid-template-areas: "name userAdmin"
 }
 
 .userListContainer .alignLeft {
+    grid-area: "name";
     text-align: left;
 }
 
-.userListcontainer .alignRight {
+.userListContainer .alignRight {
+    grid-area: "userAdmin";
     text-align: right;
 }
 
