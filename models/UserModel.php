@@ -29,13 +29,13 @@ class UserModel extends Model {
     /**
      * @return array
      * Devuelve un arreglo de objetos con todos los usuarios de la tabla `user`.
-     * Selecciona a todos los usuarios menos el administrador principal.
+     * Selecciona a todos los usuarios MENOS al que está logueado y al administrador principal
      */
-    public function getUsers() {
-        $query = $this->getDb()->prepare('SELECT `username`, `admin` FROM `user` WHERE `id` != ? ORDER BY `username`');
+    public function getUserList($currentID) {
+        $query = $this->getDb()->prepare('SELECT `id`, `username`, `admin` FROM `user` WHERE (`id` != ?) AND (`owner` != ?) ORDER BY `id`');
         // TODO: Optimizar y refactorizar método para traer lista de usuarios
-        $idAdmin = 1;
-        $query->execute([$idAdmin]);
+        $ownerTrue = 1;
+        $query->execute([$currentID,$ownerTrue]);
         return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
@@ -57,6 +57,15 @@ class UserModel extends Model {
     public function updateUserAdmin($adminTrueFalse, $userID) {
         $query = $this->getDb()->prepare('UPDATE `user` SET `admin` = ? WHERE `id` = ?');
         return $query->execute([$adminTrueFalse,$userID]);
+    }
+
+    /**
+     * @return boolean
+     * Borra un usuario de la tabla `user` por ID
+     */
+    public function deleteUser($userID) {
+        $query = $this->getDB()->prepare('DELETE FROM `user` WHERE `id` = ?');
+        return $query->execute([$userID]);
     }
 
 }

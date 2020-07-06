@@ -36,7 +36,14 @@ switch($urlParts[0]) {
     break;
     case 'user':
         $controller = new UserController();
-        $controller->showProfile();
+        switch($urlParts[1]) {
+            case 'profile':
+                $controller->showProfile();
+            break;
+            case 'remove':
+                $controller->removeUser($urlParts[2]);
+            break;
+        }
     break;
     case 'userlist':
         $controller = new UserController();
@@ -46,13 +53,11 @@ switch($urlParts[0]) {
         $controller = new UserController();
         $adminTrueFalse = null;
         switch($urlParts[1]) {
-            case 'add': {
-                $adminTrueFalse = 1; // o true?
-            }
+            case 'add':
+                $adminTrueFalse = 1;
             break;
-            case 'remove': {
-                $adminTrueFalse = 0; // o false?
-            }
+            case 'remove':
+                $adminTrueFalse = 0;
             break;
         }
         $controller->addremoveAdmin($adminTrueFalse, $urlParts[2]);
@@ -152,7 +157,11 @@ switch($urlParts[0]) {
         switch($urlParts[1]) {
             case 'instrument':
                 $controller = new InsController();
-                $controller->deleteInstrument($urlParts[2]);
+                if($urlParts[2] == 'image') {
+                    $controller->removeImgIns($urlParts[3]);
+                } else {
+                    $controller->deleteInstrument($urlParts[2]);
+                }
             break;
             case 'category':
                 $controller = new CategController();

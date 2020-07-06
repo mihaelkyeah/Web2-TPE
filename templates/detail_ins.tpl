@@ -10,6 +10,9 @@
         {if $instrument->image <> ""}
             <div class="insImg">
                 <img src="./{$instrument->image}" class="img-responsive img-rounded" height=240>
+                {if (isset($isadmin) and ($isadmin eq 1))}
+                    <br><a href="delete/instrument/image/{$instrument->id}" class="btn btn-danger btn-sm buttonContainer">Delete image</a>
+                {/if}
             </div>
         {/if}
     </div>

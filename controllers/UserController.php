@@ -65,16 +65,23 @@ class UserController extends Controller {
      * ===== ADMINISTRACIÓN DE USUARIOS =====
      */
 
+    // Trae el ID del usuario logueado actualmente
+    private function getCurrentID() {
+        return $_SESSION['ID USER'];
+    }
+
     // Muestra el panel de control del usuario actual
     public function showProfile() {
         AuthHelper::getLoggedIn();
-        $this->view->viewProfile(($_SESSION['ID USER']), $this->isadmin);
+        $currentID = $this->getCurrentID();
+        $this->view->viewProfile(($currentID), $this->isadmin);
     }
 
     // Muestra la lista de usuarios (a un administrador)
     public function showUsers() {
         AuthHelper::getPermission();
-        $users = $this->model->getUsers();
+        $currentID = $this->getCurrentID();
+        $users = $this->model->getUserList($currentID);
         $this->view->viewUserList($users);
     }
 
@@ -91,7 +98,8 @@ class UserController extends Controller {
 
         $success = $this->model->saveUser($newUsername, $newPassHash);
         if($success) {
-            header('Location:'.BASE_URL.'login');
+            // header('Location:'.BASE_URL.'login');
+            $this->verify();
         }
         else {
             $this->view->showError('Error adding new user to database','The registration process could not be completed.');
@@ -102,15 +110,26 @@ class UserController extends Controller {
     // dependiendo de si $adminTrueFalse es igual a 1 o a 0.
     public function addRemoveAdmin($adminTrueFalse, $userID) {
         AuthHelper::getPermission();
-        $username = $this->model->getUsernameByID($userID);
         $success = $this->model->updateUserAdmin($adminTrueFalse, $userID);
         if($success)  {
             header('Location:'.BASE_URL.'userlist');
         }
         else {
-            $this->view->showError("The query could not be resolved","Admin privileges could not be added or removed from the user.");
+            $this->view->showError('The query could not be resolved','Admin privileges could not be added or removed from the user.');
         }
         
+    }
+
+    public function removeUser($userID) {
+        AuthHelper::getPermission();
+        $success = $this->model->deleteUser($userID);
+        if($success) {
+            header('Location:'.BASE_URL.'userlist');
+        }
+        else {
+            var_dump($userID);
+            $this->view->showError('The query could not be resolved','The user could not be removed from the database.');
+        }
     }
 
 }

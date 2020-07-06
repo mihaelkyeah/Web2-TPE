@@ -45,7 +45,7 @@ p .alert {
 .userListContainer {
     display: grid;
     margin: 5px;
-    grid-template-areas: "name userAdmin"
+    grid-template-areas: "name user-admin-remove"
 }
 
 .userListContainer .alignLeft {
@@ -54,8 +54,8 @@ p .alert {
 }
 
 .userListContainer .alignRight {
-    grid-area: "userAdmin";
     text-align: right;
+    grid-area: "user-admin-remove"
 }
 
 /* Botones */

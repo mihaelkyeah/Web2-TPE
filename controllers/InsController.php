@@ -130,7 +130,8 @@ class InsController extends Controller {
         }
         
         if($success) {
-            header('Location: '. BASE_URL .'instruments');
+            // Redirección específica para poder ver de manera instantánea los cambios realizados.
+            header('Location:'. BASE_URL .'details/instrument/'.$id);
         }
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
@@ -149,6 +150,33 @@ class InsController extends Controller {
         else {
             return false;
         }
+    }
+
+    // Devuelve la ruta de la imagen asociada a un instrumento en la BD
+    private function getImgPathDB($id) {
+        return $this->model->returnImgPath($id);
+    }
+
+    // Borra una imagen del servidor habiendo recibido su ruta desde la DB,
+    // y luego indica a la DB que ya no esté vinculada a esa imagen
+    public function removeImgIns($id) {
+
+        $imgPath = $this->getImgPathDB($id);
+        if($imgPath != null) {
+
+            if(file_exists($imgPath))
+                unlink($imgPath);
+            $success = $this->model->removeImg($id);
+
+            if ($success) {
+                header('Location:'. BASE_URL .'details/instrument/'.$id);
+            }
+            else {
+                $this->showError('The query could not be resolved','Image path could not be removed from the database.');
+            }
+
+        }
+
     }
 
     // Borra un instrumento por ID
