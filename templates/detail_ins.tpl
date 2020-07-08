@@ -17,9 +17,27 @@
         {/if}
     </div>
 
+    <section class="wrapper"  id="user" 
+        username="{$user->username}"
+        privilege=
+        {if (!isset($isadmin))}
+            "0"
+        {else}
+            {if $isadmin eq 0}
+                "1"
+            {else}
+                "2"
+            {/if}
+        {/if}>
+        {include 'templates/vue/rating.vue'}
+        {include 'templates/vue/comment-list.vue'}
+        {include 'templates/vue/comment-form.vue'}
+    </section>
+
     {* Bloque reservado para administrador *}
     {if (isset($isadmin)) and ($isadmin eq 1)}
         <hr class="divideFormAdmin">
         {include 'templates/edit_instrument.tpl'}
     {/if}
+    <script type="text/javascript" src="js/comments.js"></script>
 {include 'templates/footer.tpl'}
