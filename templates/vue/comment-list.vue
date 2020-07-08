@@ -26,7 +26,7 @@
                     <td class="text-size">{{comment.content}}</td>
                     <td>{{comment.rating}}</td>
                     <td>{{comment.username}}</td>
-                    <td v-if="priority == 2">
+                    <td v-if="privilege == 2">
                         <button v-on:click="deleteComment(comment.id)">Delete</button>
                     </td>
                 </tr>

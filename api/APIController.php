@@ -4,6 +4,7 @@ require_once('models/InsModel.php');
 require_once('models/CommentModel.php');
 require_once('api/APIView.php');
 
+// Controlador para la API de los comentarios
 class ApiController {
 
     private $userModel;
