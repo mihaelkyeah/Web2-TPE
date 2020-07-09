@@ -23,13 +23,6 @@ class ApiController {
         if(!empty($params)) {
             $id_ins = $params[':ID'];
             $comments = $this->commentModel->getInsComments($id_ins);
-            
-            /* // prueba para el router
-            foreach($comments as $comment)
-                echo('<strong>'.($comment->id_user_fk).'</strong><br>'.
-                    ($comment->content).'<br>'
-                );
-            die(); */
 
             if ($comments) {
                 $this->view->response($comments, 200);
@@ -63,10 +56,6 @@ class ApiController {
         else {
             $this->view->response(false, 404);
         }
-    }
-
-    public function funcionDeMuestra() {
-        echo('Hola mundo');
     }
 
 }

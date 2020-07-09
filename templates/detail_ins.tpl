@@ -17,7 +17,8 @@
         {/if}
     </div>
 
-    <section class="wrapper"  id="user" 
+    <section class="wrapper"  id="commentSection" 
+        insID="{$instrument->id}"
         username="{$user->username}"
         privilege=
         {if (!isset($isadmin))}

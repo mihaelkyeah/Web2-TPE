@@ -1,37 +1,38 @@
 'use strict';
 
 // Se cargan los datos del usuario actual desde los elementos del HTML
-let username = document.querySelector('#user').getAttribute('username');
-let userID = document.querySelector('#user').getAttribute('id');
-// let admin = document.querySelector('#user').getAttribute('user-admin');
-// Sistema de privilegios improvisado para no tener que refactorizar toda la base de datos ahora...
-let privilege = document.querySelector('#user').getAttribute('privilege');
+let username = document.querySelector('#commentSection').getAttribute('username');
+let userID = document.querySelector('#commentSection').getAttribute('id');
+let insID = document.querySelector('#commentSection').getAttribute('insID')
+let privilege = document.querySelector('#commentSection').getAttribute('privilege');
 
 var commentsList = new Vue({
     el: '#comments',
     data: {
         error: false,
         loading: false,
+        privilege: privilege,
         ins_comments: []
     },
     methods: {
         /**
          * Elimina un comentario por id
          */
-        deleteComment: function (id) {
-            // original:
-            // fetch('library/api/deleteComment/' + id, { method: 'DELETE' })
-            fetch('corador/api/deleteComment' + id, {method: 'DELETE'})
-            .then((response) => { return response.text()})
+        deleteComment: function (insID) {
+            fetch('api/deleteComment/' + insID, {method: 'DELETE'})
+            .then((response) => {
+                console.log(response);
+                return response.text()
+            })
             .then((response) => {
 
                 // Desde la API se recibe un string que dice 'true'
-                if (response == 'true') {
-                    assessment.loading = true;
-                    assessment.rating = null;
+                if (response) {
+                    console.log(response);
                 }
                 else {
-                    alert(response);
+                    console.log(response);
+                    // alert(response);
                 }
 
             })
@@ -60,13 +61,32 @@ var formPostComment = new Vue({
         
         /**
          * Permite postear un comentario con puntaje
-         * @param {*} e evento submit recarga la página por defecto
          */
-        checkForm: function(e) {
-            // Evita reload
-            e.preventDefault();
+        postComment: function(e) {
 
-            postComment(userComment.value, rating.value);
+            e.preventDefault(e);
+            // postComment(userComment.value, rating.value);
+            let comment = {
+                id_ins_fk: insID,
+                id_user_fk: userID,
+                content: userComment.value,
+                rating: rating.value
+            };
+        
+            fetch('api/comment/post', {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify(comment)
+            })
+            .then((response) => {
+                console.log(response);
+                if (response.ok) {
+                    console.log('ok');
+                } else {
+                    alert('Error posting comment.');
+                }
+            })
+            .catch(exception => console.log(exception));
 
             commentsList.error = false;
             commentsList.loading = true;
@@ -74,6 +94,7 @@ var formPostComment = new Vue({
             formPostComment.userComment = null;
             formPostComment.rating = null;
         }
+
     }
 });
 
@@ -81,9 +102,7 @@ getComments();
 
 function getComments() {
 
-    let id = getInsID();
-
-    fetch('api/comments/'+id)
+    fetch('api/comments/'+insID)
     .then(response => response.json())
     .then(ins_comments => {
         if(ins_comments == null) {
@@ -91,42 +110,10 @@ function getComments() {
         }
         else {
             commentsList.ins_comments = ins_comments;
-            assessment.rating = getAverage(ins_comments);
+            averageRating.users_rating = getAverage(ins_comments);
         }
         commentsList.loading = false;
-        assessment.loading = false;
-    })
-    .catch(exception => console.log(exception));
-
-}
-
-function getInsID() {
-    let url = window.location.pathname.split("/");
-    let id = url[(url.length - 1)];
-    return id;
-}
-
-function postComment(content, rating) {
-    let id_ins = getInsID();
-
-    let comment = {
-        id_ins_fk: id_ins,
-        id_user_fk: id_user,
-        content: content,
-        rating: rating
-    };
-
-    fetch('api/postComment', {
-        method: 'POST',
-        headers: {'Content-Type':'application/json'},
-        body: JSON.stringify(comment)
-    })
-    .then((response) => {
-        if (response.ok) {
-            console.log('ok');
-        } else {
-            alert('Error posting comment.');
-        }
+        averageRating.loading = false;
     })
     .catch(exception => console.log(exception));
 }

@@ -14,9 +14,15 @@ class APIView {
             404 => 'Not found',
             500 => 'Internal server error'
         );
+
         if(isset($status[$code])) {
             return $status[$code];
         }
+        else {
+            return $status[500];
+        }
+    
+        // return (isset($status[$code]))? $status[$code] : $status[500];
     }
 
 }

@@ -6,7 +6,7 @@
     </div>
     <div v-else>
         <h4>Post your comment:</h4>
-        <form @submit="checkForm" method="POST">
+        <form @submit="postComment" method="POST">
             <div>
                 <textarea v-model="userComment" rows="4" cols="75" style="resize:none" id="userComment" placeholder="Write your comment here..." required></textarea>
             <div>
