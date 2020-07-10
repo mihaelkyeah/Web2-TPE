@@ -3,23 +3,16 @@
 require_once('models/Model.php');
 
 class InsImgModel extends Model {
+
     /**
-     * @return string
-     * Copia la imagen subida mediante el formulario para crear una instancia única.
-     * Desc. original:
-     * Mueve el archivo subido y le asigna un nombre; retorna el nombre creado.
+     * @return array
+     * Devuelve un arreglo con todas las imágenes asociadas a un instrumento.
+     * Específicamente, trae las columnas `id` (de la imgaen) y `image` (ruta de la imagen en el servidor)
      */
-    public function copyImage() {
-        // Nombre del archivo original
-        $img_OrigName = $_FILES['insImg']['name'];
-        // Nombre en el sistema de archivos
-        $img_PhysName = $_FILES['insImg']['tmp_name'];
-        // Nombre que devuelve la función
-        $img_finalName = "img_upload/". uniqid("", true) . "." .strtolower(pathinfo($img_OrigName, PATHINFO_EXTENSION));
-
-        move_uploaded_file($img_PhysName, $img_finalName);
-
-        return $img_finalName;
+    public function getImgAlbum($insID) {
+        $query = $this->getDb()->prepare('SELECT `id`, `image` FROM `ins_image` WHERE `ins_album_fk` = ?');
+        $query->execute([$insID]);
+        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     /**
@@ -33,17 +26,6 @@ class InsImgModel extends Model {
         $img_finalName = $this->copyImage();
         $query = $this->getDb()->prepare('INSERT INTO `ins_image` (`image`, `ins_album_fk`) VALUES (?, ?)');
         return $query->execute([$img_finalName,$insID]);
-    }
-
-    /**
-     * @return array
-     * Devuelve un arreglo con todas las imágenes asociadas a un instrumento.
-     * Específicamente, trae las columnas `id` (de la imgaen) y `image` (ruta de la imagen en el servidor)
-     */
-    public function getImgAlbum($insID) {
-        $query = $this->getDb()->prepare('SELECT `id`, `image` FROM `ins_image` WHERE `ins_album_fk` = ?');
-        $query->execute([$insID]);
-        return $query->fetchAll(PDO::FETCH_OBJ);
     }
 
     /**

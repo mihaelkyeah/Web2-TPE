@@ -182,9 +182,13 @@ switch($urlParts[0]) {
                 }
             break;
             case 'delete':
-                if($urlParts[2] == 'ins') {
+                if($urlParts[2] == 'instr') {
                     $controller = new InsController();
                     $controller->removeImgIns($urlParts[3],$urlParts[5]);
+                }
+                elseif($urlParts[2] == 'categ') {
+                    $controller = new CategController();
+                    $controller->removeImgCateg($urlParts[3]);
                 }
             break;
         }

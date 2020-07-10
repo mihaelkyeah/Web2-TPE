@@ -68,14 +68,15 @@ p .alert {
     margin: 10px;
 }
 
-/* Imágenes de los instrumentos */
+/* Imágenes de los instrumentos y categorías */
 
-.insImg {
+.imageDiv {
     margin: 10px auto;
     object-fit: contain;
 }
 
-.insImg .eachImage {
+/* Subdivisión para los instrumentos (tienen múltiples imágenes) */
+.imageDiv .eachImage {
     display: inline-block;
 }
 

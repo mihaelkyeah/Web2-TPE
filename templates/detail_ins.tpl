@@ -8,12 +8,12 @@
         <p class="text-break">{$instrument->details}</p>
         <h3>Price: {$instrument->price}</h3>
         {if (isset($images))}
-            <div class="insImg">
+            <div class="imageDiv">
                 {foreach from=$images item=image}
                 <div class="eachImage">
                     <img src="./{$image->image}" class="img-responsive img-rounded" height=240>
                         {if (isset($isadmin) and ($isadmin eq 1))}
-                    <br><a href="image/delete/ins/{$instrument->id}/img/{$image->id}" class="btn btn-danger btn-sm buttonContainer">Delete image</a>
+                    <br><a href="image/delete/instr/{$instrument->id}/img/{$image->id}" class="btn btn-danger btn-sm buttonContainer">Delete image</a>
                         {/if}
                 </div>
                 {/foreach}

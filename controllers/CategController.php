@@ -51,9 +51,14 @@ class CategController extends Controller {
         }
 
         AuthHelper::getLoggedIn();
-        $success = $this->model->saveCateg($name, $details);
+        if($this->ifImage()) {
+            $success = $this->model->saveCategImg($name, $details);
+        } else {
+            $success = $this->model->saveCateg($name, $details);
+        }
+
         if($success) {
-            header('Location: '. BASE_URL ."categories");
+            header('Location: '. BASE_URL .'categories');
         }
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
@@ -76,14 +81,69 @@ class CategController extends Controller {
         }
 
         AuthHelper::getLoggedIn();
-        $success = $this->model->updateCateg($name, $details, $id);
+        if($this->ifImage()) {
+            // Obtiene la ruta de imagen existente en la BD y la borra del servidor
+            $this->deleteImgServer($id);
+            // Luego invoca al método para copiar la imagen cargada por el form al servidor
+            // y subir su ruta a la BD
+            $success = $this->model->updateCategImg($name, $details, $id);
+        } else {
+            $success = $this->model->updateCateg($name, $details, $id);
+        }
         if($success) {
-            header('Location: '. BASE_URL ."categories");
+            header('Location:'. BASE_URL .'details/category/'.$id);
         }
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
         
+    }
+
+    private function ifImage() {
+        if (($_FILES['insImg']['type'] == "image/jpg") ||
+            ($_FILES['insImg']['type'] == "image/jpeg") ||
+            ($_FILES['insImg']['type'] == "image/png")) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // Devuelve la ruta de la imagen asociada a una categoría en la BD
+    private function getImgPathDB($id) {
+        return $this->model->getImgPath($id);
+    }
+
+    // Borra una imagen del servidor
+    // (ya sea para cambiarla por otra en la BD o para borrarla en el servidor y en la BD)
+    private function deleteImgServer($id) {
+        $imgPath = $this->getImgPathDB($id);
+        if(($imgPath != null) && (file_exists($imgPath))) {
+            unlink($imgPath);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    // Borra una imagen del servidor habiendo recibido su ruta desde la DB,
+    // y luego indica a la DB que ya no esté vinculada a esa imagen
+    public function removeImgCateg($id) {
+
+        // Si tiene éxito en borrar la imagen del servidor,
+        // llama a la función del modelo para borrar la entrada de la BD
+        if(deleteImgServer($id)) {
+            $success = $this->model->removeImg($id);
+            if ($success) {
+                header('Location:'. BASE_URL .'details/category/'.$id);
+            }
+            else {
+                $this->showError('The query could not be resolved','Image path could not be removed from the database.');
+            }
+        }
+
     }
 
     // Borra una categoría por ID

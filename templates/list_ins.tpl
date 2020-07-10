@@ -8,24 +8,24 @@
 {* Si $instruments tiene algo, muestra los instrumentos normalmente *}
 {else}
     <ul class="list-group list-group-flush">
+        {* Arreglo de instrumentos *}
         {foreach from=$instruments item=instrument}
-            {if ($instrument@index mod 3) eq 0}
-                <li class="list-group-item">
-                <div class="row" style="margin: 20px auto">
-            {/if}
-                <div class="col-4">
-                    <div class="card">
-                        {*<img class="card-img-top" src="img/instrument.png" height=100 width=100 alt="Card image cap">*}
-                        <div class="card-body">
-                            <a href="details/instrument/{$instrument->id}" class="card-title">{$instrument->name}</a>
-                            <p class="card-text">{$instrument->details}</p>
+                {if ($instrument@index mod 3) eq 0}
+                    <li class="list-group-item">
+                    <div class="row" style="margin: 20px auto">
+                {/if}
+                    <div class="col-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <a href="details/instrument/{$instrument->id}" class="card-title">{$instrument->name}</a>
+                                <p class="card-text">{$instrument->details}</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            {if ($instrument@index mod 3) eq 2}
-                </div>
-                </li>
-            {/if}
+                {if ($instrument@index mod 3) eq 2}
+                    </div>
+                    </li>
+                {/if}
         {/foreach}
     </ul>
     {if (isset($isadmin)) and ({$isadmin} eq 1)}
