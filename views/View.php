@@ -12,7 +12,9 @@ class View {
         $this->smarty->assign('baseURL',BASE_URL);
         
         $username = AuthHelper::getLoggedUserName();
+        $userID = AuthHelper::getLoggedUserID();
         $this->getSmarty()->assign('username',$username);
+        $this->getSmarty()->assign('userID',$userID);
     }
 
     public function showError($msg1,$msg2) {

@@ -2,8 +2,8 @@
 
 // Se cargan los datos del usuario actual desde los elementos del HTML
 let username = document.querySelector('#commentSection').getAttribute('username');
-let userID = document.querySelector('#commentSection').getAttribute('userID');
-let insID = document.querySelector('#commentSection').getAttribute('insID')
+let userID = parseInt(document.querySelector('#commentSection').getAttribute('userID'));
+let insID = parseInt(document.querySelector('#commentSection').getAttribute('insID'));
 let privilege = document.querySelector('#commentSection').getAttribute('privilege');
 
 // Pide cargar los comentarios no bien se carga la página
@@ -55,7 +55,7 @@ var formPostComment = new Vue({
                 id_ins_fk: insID,
                 id_user_fk: userID,
                 content: userComment.value,
-                rating: rating.value
+                rating: parseInt(rating.value)
             };
 
             // Envía el JSON al método para postear el comentario
@@ -113,8 +113,8 @@ function postComment(comment) {
     .then((response) => {
         console.log(response);
         if (response.ok) {
-            alert('Your comment has been posted successfully.');
             getComments();
+            alert('Your comment has been posted successfully.');
         } else {
             alert('Error posting comment.');
         }
@@ -136,6 +136,7 @@ function deleteComment(commentID) {
         if (response) {
             console.log(response);
             alert('The comment has been deleted successfully.');
+            getComments();
         }
         else {
             console.log(response);

@@ -21,26 +21,27 @@
         {/if}
     </div>
 
-    <section class="wrapper"  id="commentSection" 
-        insID="{$instrument->id}"
-        {if (isset($user))}
-            userID="{$user->id}"
-            username="{$user->username}"
-        {/if}
-        privilege=
-        {if (!isset($isadmin))}
-            "0"
-        {else}
-            {if $isadmin eq 0}
-                "1"
-            {else}
-                "2"
+    <div class="container">
+        <section class="wrapper"  id="commentSection" 
+            insID="{$instrument->id}"
+            {if (isset($userID))}
+                userID="{$userID}"
+                username="{$username}"
             {/if}
-        {/if}>
-        {include 'templates/vue/rating.vue'}
-        {include 'templates/vue/comment-list.vue'}
-        {include 'templates/vue/comment-form.vue'}
-    </section>
+            {if (!isset($isadmin))}
+                privilege="0"
+            {else}
+                {if $isadmin eq 0}
+                    privilege="1"
+                {else}
+                    privilege="2"
+                {/if}
+            {/if}>
+            {include 'templates/vue/rating.vue'}
+            {include 'templates/vue/comment-list.vue'}
+            {include 'templates/vue/comment-form.vue'}
+        </section>
+    </div>
 
     {* Bloque reservado para administrador *}
     {if (isset($isadmin)) and ($isadmin eq 1)}

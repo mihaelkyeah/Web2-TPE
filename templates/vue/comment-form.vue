@@ -7,12 +7,25 @@
     <div v-else>
         <h4>Post your comment:</h4>
         <form @submit="sendComment" method="POST">
-            <div>
-                <textarea v-model="userComment" rows="4" cols="75" style="resize:none" id="userComment" placeholder="Write your comment here..." required></textarea>
-            <div>
-            <div>
-                <input type="number" v-model="rating" id ="rating" min=1 max=5 placehoder="Rating" required>
-                <input type="submit" value="Post comment">
+            <div class="col-auto my-1">
+                <textarea v-model="userComment" class="formControl" rows="5" cols="80" style="resize:none" id="userComment" placeholder="Write your comment here..." required></textarea>
+            </div>
+            <div class="form-row align-items-center">
+                <div class="col-auto my-1">
+                    <label for="rating">Rating:</label>
+                </div>
+                <div class="col-auto my-1">
+                    <select v-model="rating" class="custom-select mr-sm-2" id ="rating">
+                        <option value="5">5</option>
+                        <option value="4">4</option>
+                        <option value="3">3</option>
+                        <option value="2">2</option>
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <div class= "col-auto my-1">
+                    <input type="submit" class="btn btn-warning" value="Post comment">
+                </div>
             </div>
         </form>
     </div>

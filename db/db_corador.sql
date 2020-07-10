@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2020 at 11:47 AM
+-- Generation Time: Jul 10, 2020 at 09:00 PM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -66,10 +66,11 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id`, `id_ins_fk`, `id_user_fk`, `content`, `rating`) VALUES
-(1, 1, 5, 'adongiasdo', 5),
+(1, 1, 5, 'The violin (violin) is a kind of super clean orchestra played to ring carry instruments. It is widely spread all over the world, is the modern orchestra string of the main instrument. In the music it plays very important position, is the pillar of the modern symphony orchestra, but also has the difficult playing skills solo instrument.\r\nThe emergence of modern violin has been 300 years of history, is the western music since the 17th century in one of the most important instruments as the instrument queen, was also the production is itself a gate violin for fine art. The violin beautiful tone, close to a broad range, and the performance is string, it was born from that day on, he\'s been in the instrument of significant position, for people loved. If the piano is \"the king of Musical Instruments, then the violin is\" the queen of instruments\".\r\nFor centuries, the world famous composer wrote a lot of violin classic works, violinist in this instrument into the soul, the development of the superb performance art. The violin can concerts and solo.\r\nThe violin is a string of four bowed instruments, the family is the main members of the family system of other members are: (the viola, the cello and the bass). Modern violin originated from Italian Craig mona, in 1600-1750 years to become the largest violin production center. The famous master making guitars are: Nicola Amati (nicolas, Marty), Antonio Stradivari (Antonio Stella bottom tile), and Giuseppe Guarneri (ji plug pu * melon nai); They made instruments so far are priceless. The violin\'s fifth tune: g, d1, a1, e2, register more than three and a half group, is all orchestra indispensable instrument, also after instruments.', 5),
 (3, 6, 5, 'lol who even owns one of these xdxdxddxdxd', 3),
 (4, 3, 2, 'Le daría más puntos pero el nombre \"cello\" no es muy representativo. Recomiendo renombrar a \"violoncello\". Saludos', 2),
-(5, 6, 2, 'Éste es un instrumento muy bueno. 5/5', 5);
+(5, 6, 2, 'Éste es un instrumento muy bueno. 5/5', 5),
+(33, 1, 3, 'jsjsjs gracias esta chido', 1);
 
 -- --------------------------------------------------------
 
@@ -211,7 +212,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `instrument`

@@ -28,6 +28,14 @@ class AuthHelper {
             return null;
     }
 
+    static public function getLoggedUserID() {
+        self::start();
+        if(isset($_SESSION['ID USER']))
+            return $_SESSION['ID USER'];
+        else
+            return null;
+    }
+
     static public function getUserAdmin() {
         self::start();
         if(isset($_SESSION['ISADMIN']))

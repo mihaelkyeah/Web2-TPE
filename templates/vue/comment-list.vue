@@ -10,7 +10,7 @@
         <p>There are no comments on this instrument yet. Soyez le premier!</p>
     </div>
     <div v-if="!error">
-        <table class="table">
+        <table class="table table-hover">
             <thead>
                 <tr>
                     <th scope="col">Rating</th>

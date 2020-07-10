@@ -12,6 +12,16 @@ class CommentModel extends Model {
         $query = $this->getDb()->prepare('INSERT INTO `comment` (`id_ins_fk`, `id_user_fk`, `content`, `rating`) VALUES (?, ?, ?, ?)');
         return $query->execute([$id_ins, $id_user, $content, $rating]);
     }
+    
+    /**
+     * @return object
+     * Devuelve un comentario por ID
+     */
+    public function getComment($id) {
+        $query = $this->getDb()->prepare('SELECT * FROM `comment` WHERE `id` = ?');
+        $query->execute([$id]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
 
     /**
      * @return boolean
