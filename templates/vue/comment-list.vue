@@ -23,11 +23,11 @@
             </thead>
             <tbody>
                 <tr v-for="comment in ins_comments">
-                    <td class="text-size">{{comment.content}}</td>
+                    <td>{{comment.content}}</td>
                     <td>{{comment.rating}}</td>
                     <td>{{comment.username}}</td>
                     <td v-if="privilege == 2">
-                        <button v-on:click="deleteComment(comment.id)">Delete</button>
+                        <button v-on:click="removeComment(comment.id)">Delete</button>
                     </td>
                 </tr>
             </tbody>

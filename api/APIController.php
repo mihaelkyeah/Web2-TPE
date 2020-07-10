@@ -1,27 +1,23 @@
 <?php
-require_once('models/UserModel.php');
-require_once('models/InsModel.php');
 require_once('models/CommentModel.php');
 require_once('api/APIView.php');
 
 // Controlador para la API de los comentarios
 class ApiController {
 
-    private $userModel;
-    private $insModel;
     private $commentModel;
     private $view;
 
     public function __construct() {
-        $this->userModel = new UserModel();
-        $this->insModel = new InsModel();
         $this->commentModel = new CommentModel();
         $this->view = new APIView();
     }
 
+    // Trae los comentarios de la BD
     public function getComments($params = []) {
+
         if(!empty($params)) {
-            $id_ins = $params[':ID'];
+            $id_ins = $params[':ID_ins'];
             $comments = $this->commentModel->getInsComments($id_ins);
 
             if ($comments) {
@@ -30,20 +26,29 @@ class ApiController {
                 $this->view->response(null, 200);
             }
         }
+
     }
 
+    // Guarda un comentario en la BD
     public function postComment() {
+
         $params = json_decode(file_get_contents("php://input"));
-        $this->commentModel->saveComment($params->id_ins_fk, $params->id_user_fk, $params->content, $params->rating);
+
+        $id_ins_fk = $params->id_ins_fk;
+        $id_user_fk = $params->id_user_fk;
+        $content = $params->content;
+        $rating = $params->rating;
+
+        $this->commentModel->saveComment($id_ins_fk, $id_user_fk, $content, $rating);
         $this->view->response($params, 200);
+
     }
 
-    // public function editComment($params = []) {
-    // }
-
+    // Borra un comentario de la BD
     public function deleteComment($params = []) {
+
         if (!empty($params)) {
-            $id = $params[':ID'];
+            $id = $params[':ID_comm'];
             $success = $this->commentModel->getComment($id);
             if (!empty($success)) {
                 $this->commentModel->deleteComment($id);
@@ -56,6 +61,7 @@ class ApiController {
         else {
             $this->view->response(false, 404);
         }
+
     }
 
 }

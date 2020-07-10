@@ -23,7 +23,10 @@
 
     <section class="wrapper"  id="commentSection" 
         insID="{$instrument->id}"
-        username="{$user->username}"
+        {if (isset($user))}
+            userID="{$user->id}"
+            username="{$user->username}"
+        {/if}
         privilege=
         {if (!isset($isadmin))}
             "0"

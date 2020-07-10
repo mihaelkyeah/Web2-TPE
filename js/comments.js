@@ -2,9 +2,14 @@
 
 // Se cargan los datos del usuario actual desde los elementos del HTML
 let username = document.querySelector('#commentSection').getAttribute('username');
-let userID = document.querySelector('#commentSection').getAttribute('id');
+let userID = document.querySelector('#commentSection').getAttribute('userID');
 let insID = document.querySelector('#commentSection').getAttribute('insID')
 let privilege = document.querySelector('#commentSection').getAttribute('privilege');
+
+// Pide cargar los comentarios no bien se carga la página
+document.addEventListener('DOMContentLoaded', function(){
+    getComments();
+});
 
 var commentsList = new Vue({
     el: '#comments',
@@ -18,25 +23,8 @@ var commentsList = new Vue({
         /**
          * Elimina un comentario por id
          */
-        deleteComment: function (insID) {
-            fetch('api/deleteComment/' + insID, {method: 'DELETE'})
-            .then((response) => {
-                console.log(response);
-                return response.text()
-            })
-            .then((response) => {
-
-                // Desde la API se recibe un string que dice 'true'
-                if (response) {
-                    console.log(response);
-                }
-                else {
-                    console.log(response);
-                    // alert(response);
-                }
-
-            })
-            .catch((exception) => console.log(exception));
+        removeComment: function (commentID) {
+            deleteComment(commentID)
         }
     }
 });
@@ -57,49 +45,33 @@ var formPostComment = new Vue({
         username: username,
         privilege: privilege
     },
-    methods: {
-        
-        /**
-         * Permite postear un comentario con puntaje
-         */
-        postComment: function(e) {
-
+    methods: { 
+        // Responde al botón en el formulario de Vue
+        sendComment: function(e) {
+            // Previene la recarga automática de la página
             e.preventDefault(e);
-            // postComment(userComment.value, rating.value);
+            // Prepara un JSON con los datos del comentario y del autor
             let comment = {
                 id_ins_fk: insID,
                 id_user_fk: userID,
                 content: userComment.value,
                 rating: rating.value
             };
-        
-            fetch('api/comment/post', {
-                method: 'POST',
-                headers: {'Content-Type':'application/json'},
-                body: JSON.stringify(comment)
-            })
-            .then((response) => {
-                console.log(response);
-                if (response.ok) {
-                    console.log('ok');
-                } else {
-                    alert('Error posting comment.');
-                }
-            })
-            .catch(exception => console.log(exception));
 
+            // Envía el JSON al método para postear el comentario
+            postComment(comment);
+            /*
             commentsList.error = false;
             commentsList.loading = true;
             commentsList.ins_comments = [];
+            */
             formPostComment.userComment = null;
             formPostComment.rating = null;
         }
-
     }
 });
 
-getComments();
-
+// Trae los comentarios de la API
 function getComments() {
 
     fetch('api/comments/'+insID)
@@ -118,11 +90,61 @@ function getComments() {
     .catch(exception => console.log(exception));
 }
 
+// Saca el promedio de calificaciones de todos los comentarios en una página
 function getAverage(ins_comments) {
+
     let count = 0;
     for (let i = 0; i < ins_comments.length; i++) {
         count += parseInt(ins_comments[i].rating);
     }
     let average = parseFloat((count/ins_comments.length));
     return average.toFixed(2);
+
+}
+
+// Permite postear un comentario con calificación
+function postComment(comment) {
+
+    fetch('api/comment', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify(comment)
+    })
+    .then((response) => {
+
+        console.log(response);
+        if (response.ok) {
+            alert('Your comment has been posted successfully.');
+            getComments();
+        } else {
+            alert('Error posting comment.');
+        }
+
+    })
+    .catch(exception => console.log(exception));
+
+}
+
+// Borra un comentario de la BD y de la API
+function deleteComment(commentID) {
+
+    fetch('api/comment/' + commentID, {method: 'DELETE'})
+    .then((response) => {
+        console.log(response);
+        return response.text()
+    })
+    .then((response) => {
+
+        if (response) {
+            console.log(response);
+            alert('The comment has been deleted successfully.');
+        }
+        else {
+            console.log(response);
+            alert('The comment could not be deleted.');
+        }
+
+    })
+    .catch((exception) => console.log(exception));
+
 }

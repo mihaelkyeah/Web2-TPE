@@ -23,16 +23,6 @@ class CommentModel extends Model {
     }
 
     /**
-     * @return object
-     * Trae un comentario de la BD
-     */
-    public function getComment($id) {
-        $query = $this->getDb()->prepare('SELECT * FROM `comment` WHERE `id` = ?');
-        $query->execute([$id]);
-        return $query->fetch(PDO::FETCH_OBJ);
-    }
-
-    /**
      * @return array
      * Trae un arreglo de comentarios de la tabla `comment`
      * y los respectivos nombres de usuario de la tabla `user`

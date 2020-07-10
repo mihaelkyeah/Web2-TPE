@@ -177,9 +177,6 @@ switch($urlParts[0]) {
                     $controller = new InsController();
                     $controller->addImgIns($urlParts[3]);
                 }
-                elseif($urlParts[2] == 'category') {
-                    echo('Insertar función para agregar imagen a categoría aquí');
-                }
             break;
             case 'delete':
                 if($urlParts[2] == 'instr') {
