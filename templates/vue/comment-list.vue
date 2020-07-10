@@ -10,21 +10,19 @@
         <p>There are no comments on this instrument yet. Soyez le premier!</p>
     </div>
     <div v-if="!error">
-        <table>
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Comment</th>
-                    <th>Rating</th>
-                    <th>User</th>
-                    <!-- Prioridad de administrador
-                    TODO: Implementar a mi manera -->
-                    <!-- <th v-if="priority == 2"></th> -->
+                    <th scope="col">Rating</th>
+                    <th scope="col">Comment</th>
+                    <th scope="col">User</th>
+                    <th v-if="privilege == 2" scope="col">Delete</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-for="comment in ins_comments">
+                    <th  scope="row">{{comment.rating}}</td>
                     <td>{{comment.content}}</td>
-                    <td>{{comment.rating}}</td>
                     <td>{{comment.username}}</td>
                     <td v-if="privilege == 2">
                         <button v-on:click="removeComment(comment.id)">Delete</button>

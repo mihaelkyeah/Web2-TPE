@@ -111,7 +111,6 @@ function postComment(comment) {
         body: JSON.stringify(comment)
     })
     .then((response) => {
-
         console.log(response);
         if (response.ok) {
             alert('Your comment has been posted successfully.');
@@ -119,7 +118,6 @@ function postComment(comment) {
         } else {
             alert('Error posting comment.');
         }
-
     })
     .catch(exception => console.log(exception));
 
