@@ -157,11 +157,7 @@ switch($urlParts[0]) {
         switch($urlParts[1]) {
             case 'instrument':
                 $controller = new InsController();
-                if($urlParts[2] == 'image') {
-                    $controller->removeImgIns($urlParts[3]);
-                } else {
-                    $controller->deleteInstrument($urlParts[2]);
-                }
+                $controller->deleteInstrument($urlParts[2]);
             break;
             case 'category':
                 $controller = new CategController();
@@ -169,6 +165,27 @@ switch($urlParts[0]) {
             break;
             default:
                 echo "Error";
+            break;
+        }
+    break;
+
+    // Edición de la BD: imágenes
+    case 'image':
+        switch($urlParts[1]) {
+            case 'add':
+                if($urlParts[2] == 'instrument') {
+                    $controller = new InsController();
+                    $controller->addImgIns($urlParts[3]);
+                }
+                elseif($urlParts[2] == 'category') {
+                    echo('Insertar función para agregar imagen a categoría aquí');
+                }
+            break;
+            case 'delete':
+                if($urlParts[2] == 'ins') {
+                    $controller = new InsController();
+                    $controller->removeImgIns($urlParts[3],$urlParts[5]);
+                }
             break;
         }
     break;

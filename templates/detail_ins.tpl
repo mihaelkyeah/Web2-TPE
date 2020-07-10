@@ -7,12 +7,16 @@
         <h3>Description:</h3>
         <p class="text-break">{$instrument->details}</p>
         <h3>Price: {$instrument->price}</h3>
-        {if $instrument->image <> ""}
+        {if (isset($images))}
             <div class="insImg">
-                <img src="./{$instrument->image}" class="img-responsive img-rounded" height=240>
-                {if (isset($isadmin) and ($isadmin eq 1))}
-                    <br><a href="delete/instrument/image/{$instrument->id}" class="btn btn-danger btn-sm buttonContainer">Delete image</a>
-                {/if}
+                {foreach from=$images item=image}
+                <div class="eachImage">
+                    <img src="./{$image->image}" class="img-responsive img-rounded" height=240>
+                        {if (isset($isadmin) and ($isadmin eq 1))}
+                    <br><a href="image/delete/ins/{$instrument->id}/img/{$image->id}" class="btn btn-danger btn-sm buttonContainer">Delete image</a>
+                        {/if}
+                </div>
+                {/foreach}
             </div>
         {/if}
     </div>

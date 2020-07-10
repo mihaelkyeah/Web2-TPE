@@ -3,6 +3,7 @@
 
 require_once('controllers/Controller.php');
 require_once('models/InsModel.php');
+require_once('models/InsImgModel.php');
 require_once('models/CategModel.php');
 require_once('views/InsView.php');
 
@@ -10,6 +11,7 @@ class InsController extends Controller {
 
     private $model;
     private $view;
+    private $imgModel;
 
     /**
      * Inicialización del modelo de categorías y el arreglo de categorías:
@@ -31,6 +33,7 @@ class InsController extends Controller {
         parent::__construct();
         $this->categoryArray = $this->initCategArray();
         $this->model = new InsModel();
+        $this->imgModel = new InsImgModel();
         $this->view = new InsView($this->isadmin);
     }
 
@@ -63,8 +66,9 @@ class InsController extends Controller {
      */
     public function showInstrumentDetail($id) {
         $instrument = $this->model->getIns($id);
+        $insImages = $this->imgModel->getImgAlbum($id);
         $categIndex = array_search(($instrument->id_categ_fk), array_column($this->categoryArray,'id'));
-        $this->view->viewInsDetail($instrument,$this->categoryArray,$categIndex,$this->isadmin);
+        $this->view->viewInsDetail($instrument,$this->categoryArray,$categIndex,$insImages,$this->isadmin);
     }
 
     // Muestra el formulario para crear un instrumento desde cero
@@ -78,6 +82,7 @@ class InsController extends Controller {
      * Probar cómo funciona éste antes de duplicarlo para hacer un sistema de creación de categorías.
      */
     public function addInstrument() {
+
         $name = $_POST['insName'];
         $price = floatval($_POST['price']);
         $details = $_POST['insDetails'];
@@ -89,22 +94,15 @@ class InsController extends Controller {
         }
 
         AuthHelper::getLoggedIn();
-
-        if($this->ifImage()) {
-            $success = $this->model->saveInsImg($name, $price, $details, $insCateg);
-        }
-        else {
-            $success = $this->model->saveIns($name, $price, $details, $insCateg);
-        }
+        $success = $this->model->saveIns($name, $price, $details, $insCateg);
 
         if($success) {
             header('Location: '. BASE_URL .'instruments');
         }
         else {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
-            var_dump($name, $price, $details, $insCateg);
-            die;
         }
+
     }
 
     // Actualiza un instrumento por ID
@@ -121,13 +119,7 @@ class InsController extends Controller {
         }
 
         AuthHelper::getLoggedIn();
-
-        if($this->ifImage()) {
-            $success = $this->model->updateInsImg($name, $price, $details, $insCateg, $id);
-        }
-        else {
-            $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
-        }
+        $success = $this->model->updateIns($name, $price, $details, $insCateg, $id);
         
         if($success) {
             // Redirección específica para poder ver de manera instantánea los cambios realizados.
@@ -137,6 +129,40 @@ class InsController extends Controller {
             $this->view->showError("The query could not be resolved","Values might be missing or invalid.");
         }
         
+    }
+
+    public function addImgIns($insID) {
+
+        if($this->ifImage()) {
+            $success = $this->imgModel->saveInsImg($insID);
+        }
+        if($success) {
+            header('Location:'. BASE_URL .'details/instrument/'.$insID);
+        }
+        else {
+            $this->showError('Error uploading image','The image could not be added to the database.');
+        }
+
+    }
+
+    public function removeImgIns($insID,$imgID) {
+
+        $imgPath = $this->getImgPathDB($imgID);
+        if($imgPath != null) {
+
+            if(file_exists($imgPath))
+                unlink($imgPath);
+            $success = $this->imgModel->deleteImg($imgID);
+
+            if ($success) {
+                header('Location:'. BASE_URL .'details/instrument/'.$insID);
+            }
+            else {
+                $this->showError('The query could not be resolved','Image path could not be removed from the database.');
+            }
+
+        }
+
     }
 
     // Verifica si un archivo válido de imagen fue subido mediante el formulario HTML
@@ -152,32 +178,13 @@ class InsController extends Controller {
         }
     }
 
-    // Devuelve la ruta de la imagen asociada a un instrumento en la BD
-    private function getImgPathDB($id) {
-        return $this->model->returnImgPath($id);
+    // Devuelve la ruta de la imagen por medio de su ID
+    private function getImgPathDB($imgID) {
+        return $this->imgModel->getImgPath($imgID);
     }
 
     // Borra una imagen del servidor habiendo recibido su ruta desde la DB,
     // y luego indica a la DB que ya no esté vinculada a esa imagen
-    public function removeImgIns($id) {
-
-        $imgPath = $this->getImgPathDB($id);
-        if($imgPath != null) {
-
-            if(file_exists($imgPath))
-                unlink($imgPath);
-            $success = $this->model->removeImg($id);
-
-            if ($success) {
-                header('Location:'. BASE_URL .'details/instrument/'.$id);
-            }
-            else {
-                $this->showError('The query could not be resolved','Image path could not be removed from the database.');
-            }
-
-        }
-
-    }
 
     // Borra un instrumento por ID
     public function deleteInstrument($id) {

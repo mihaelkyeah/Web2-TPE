@@ -71,9 +71,12 @@ p .alert {
 /* Imágenes de los instrumentos */
 
 .insImg {
-    /* TODO: Alinear la imagen */
     margin: 10px auto;
     object-fit: contain;
+}
+
+.insImg .eachImage {
+    display: inline-block;
 }
 
 /* Fondo y otros */

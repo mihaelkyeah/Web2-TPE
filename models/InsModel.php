@@ -37,86 +37,22 @@ class InsModel extends Model {
     }
 
     /**
-     * @return string
-     * Copia la imagen subida mediante el formulario para crear una instancia única.
-     * Desc. original:
-     * Mueve el archivo subido y le asigna un nombre; retorna el nombre creado.
-     */
-    public function copyImage() {
-        // Nombre del archivo original
-        $img_OrigName = $_FILES['insImg']['name'];
-        // Nombre en el sistema de archivos
-        $img_PhysName = $_FILES['insImg']['tmp_name'];
-        // Nombre que devuelve la función
-        $img_finalName = "img_upload/". uniqid("", true) . "." .strtolower(pathinfo($img_OrigName, PATHINFO_EXTENSION));
-
-        move_uploaded_file($img_PhysName, $img_finalName);
-
-        return $img_finalName;
-    }
-
-    /**
      * Agrega un instrumento nuevo (con o sin imagen)
      */
-    public function saveIns($name, $price, $details, $category, $image = null) {
-        $query = $this->getDb()->prepare('INSERT INTO `instrument` (`name`, `price`, `details`, `id_categ_fk`, `image`) VALUES (?, ?, ?, ?, ?)');
-        return $query->execute([$name,$price,$details,$category,$image]);
+    public function saveIns($name, $price, $details, $category) {
+        $query = $this->getDb()->prepare('INSERT INTO `instrument` (`name`, `price`, `details`, `id_categ_fk`) VALUES (?, ?, ?, ?)');
+        return $query->execute([$name,$price,$details,$category]);
     }
 
-    /**
-     * Si una imagen fue subida, mediante el formulario de entrada HTML,
-     * llama al método que mueve el archivo y le asigna un nuevo nombre único
-     * y luego inserta el instrumento en la BD con una imagen no nula.
-     */
-    public function saveInsImg($name, $price, $details, $category) {
-        $img_finalName = $this->copyImage();
-        $success = $this->saveIns($name, $price, $details, $category, $img_finalName);
-        return $success;
-    }
 
     /**
      * Actualiza un instrumento por id
      */
-    public function updateIns($name, $price, $details, $category, $id, $image = null) {
-        if(isset($image)) {
-            $query = $this->getDb()->prepare('UPDATE `instrument` SET `name` = ?, `price` = ?, `details` = ?, `id_categ_fk` = ?, `image` = ? WHERE `instrument`.`id` = ?');
-            return $query->execute([$name,$price,$details,$category,$image,$id]);
-        }
-        else {
-            $query = $this->getDb()->prepare('UPDATE `instrument` SET `name` = ?, `price` = ?, `details` = ?, `id_categ_fk` = ? WHERE `instrument`.`id` = ?');
-            return $query->execute([$name,$price,$details,$category,$id]);
-        }
+    public function updateIns($name, $price, $details, $category, $id) {
+        $query = $this->getDb()->prepare('UPDATE `instrument` SET `name` = ?, `price` = ?, `details` = ?, `id_categ_fk` = ? WHERE `instrument`.`id` = ?');
+        return $query->execute([$name,$price,$details,$category,$id]);
     }
 
-    /**
-     * Actualiza un instrumento por id agregando o sobreescribiendo en la columna `image`
-     */
-    public function updateInsImg($name, $price, $details, $category, $id) {
-        $img_finalName = $this->copyImage();
-        $success = $this->updateIns($name, $price, $details, $category, $id, $img_finalName);
-        return $success;
-    }
-
-    /**
-     * @return string
-     * Devuelve la ruta de una imagen referenciada en la columna `image` de la tabla `instrument`
-     * para que pueda ser borrada del servidor por el controlador
-     */
-    public function returnImgPath($id) {
-        $query = $this->getDb()->prepare('SELECT `image` FROM `instrument` WHERE `id` = ?');
-        $query->execute([$id]);
-        return $query->fetchColumn();
-    }
-
-    /**
-     * @return boolean
-     * Deja nula la columna `image` de la fila en la tabla `instrument` con el ID especificado
-     */
-    public function removeImg($id) {
-        $query = $this->getDb()->prepare('UPDATE `instrument` SET `image` = ? WHERE `instrument`.`id` = ?');
-        $removeImgDB = null;
-        return $query->execute([$removeImgDB,$id]);
-    }
 
     /**
      * Borra un instrumento por id

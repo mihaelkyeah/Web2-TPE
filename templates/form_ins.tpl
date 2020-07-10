@@ -39,7 +39,3 @@
     {/if}
     >
 </div>
-<div class="form-group">
-    <label>Image:</label><br>
-    <input type="file" name="insImg" id="insImg">
-</div>
