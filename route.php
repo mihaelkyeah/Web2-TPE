@@ -26,28 +26,50 @@ switch($urlParts[0]) {
         $controller = new UserController();
         $controller->showLogin();
     break;
-    case 'verify':
-        $controller = new UserController();
-        $controller->verify();
-    break;
     case 'logout':
         $controller = new UserController();
         $controller->logout();
     break;
+    case 'signup':
+        $controller = new UserController();
+        $controller->showSignUp();
+    break;
     case 'user':
         $controller = new UserController();
         switch($urlParts[1]) {
+            case 'verify':
+                $controller->verify();
+            break;
+            case 'register':
+                $controller->createUser();
+            break;
+            case 'recovery':
+                switch($urlParts[2]) {
+                    case 'step1':
+                        if(!isset($urlParts[3])) {
+                            $controller->showSecurityQuestionPrompt();
+                        } elseif ($urlParts[3] == 'verify') {
+                            $controller->verifySecurityQuestion();
+                        }
+                    break;
+                    case 'step2':
+                        $controller->showResetPassword($urlParts[3]);
+                    break;
+                    case 'resetpass':
+                        $controller->resetPassword($urlParts[3]);
+                    break;
+            }
+            break;
             case 'profile':
                 $controller->showProfile();
+            break;
+            case 'userlist':
+                $controller->showUsers();
             break;
             case 'remove':
                 $controller->removeUser($urlParts[2]);
             break;
         }
-    break;
-    case 'userlist':
-        $controller = new UserController();
-        $controller->showUsers();
     break;
     case 'admin': {
         $controller = new UserController();
@@ -62,18 +84,11 @@ switch($urlParts[0]) {
         }
         $controller->addremoveAdmin($adminTrueFalse, $urlParts[2]);
     }
-    case 'signup':
-        $controller = new UserController();
-        $controller->showSignUp();
-    break;
-    case 'register':
-        $controller = new UserController();
-        $controller->createUser();
-    break;
-    case 'makeadmin':
+    // ¿Esto se usa?
+    /* case 'makeadmin':
         $controller = new UserController();
         $controller->makeAdmin($urlParts[1]);
-    break;
+    break; */
 
     // Navegación del sitio: instrumentos y categorías
 

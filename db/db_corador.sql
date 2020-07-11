@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 10, 2020 at 09:00 PM
+-- Generation Time: Jul 11, 2020 at 02:05 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.5
 
@@ -58,7 +58,7 @@ CREATE TABLE `comment` (
   `id_ins_fk` int(11) NOT NULL,
   `id_user_fk` int(11) NOT NULL,
   `content` text NOT NULL,
-  `rating` smallint(11) NOT NULL DEFAULT 0
+  `rating` tinyint(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
@@ -70,7 +70,8 @@ INSERT INTO `comment` (`id`, `id_ins_fk`, `id_user_fk`, `content`, `rating`) VAL
 (3, 6, 5, 'lol who even owns one of these xdxdxddxdxd', 3),
 (4, 3, 2, 'Le daría más puntos pero el nombre \"cello\" no es muy representativo. Recomiendo renombrar a \"violoncello\". Saludos', 2),
 (5, 6, 2, 'Éste es un instrumento muy bueno. 5/5', 5),
-(33, 1, 3, 'jsjsjs gracias esta chido', 1);
+(33, 1, 3, 'jsjsjs gracias esta chido', 1),
+(34, 3, 7, 'Suena muy bien y a muy buen precio. Saludos!', 5);
 
 -- --------------------------------------------------------
 
@@ -145,19 +146,22 @@ CREATE TABLE `user` (
   `username` varchar(128) NOT NULL,
   `pass` varchar(256) NOT NULL,
   `admin` tinyint(1) NOT NULL DEFAULT 0,
-  `owner` tinyint(4) NOT NULL DEFAULT 0
+  `owner` tinyint(4) NOT NULL DEFAULT 0,
+  `question_type` tinyint(1) NOT NULL DEFAULT 1,
+  `question_answer` varchar(256) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `username`, `pass`, `admin`, `owner`) VALUES
-(1, 'admin', '$2y$12$jFRyj5CS4kUC.xHGsT76b.dFFzCNShya3pLISA.7LY0YM9kidC/uO', 1, 1),
-(2, 'Juan Perez', '$2y$12$5WwiRD/xFUnQrcWwPPJeRufPJ/R34SjFayvrHBKIyrRAWYW9MQ7Ii', 0, 0),
-(3, 'Heraldo Ordonez', '$2y$10$fezRQsyHX9IM9ODQk6b3TOCds/YV/u3Sad/ARrm1/HoLvvYWfrezW', 0, 0),
-(5, 'John Doe', '$2y$10$z/r7SJE6kqD3wFn9RtF3hO5qczMJT4HsoAXc8tRaqW6JMJzExPfS2', 0, 0),
-(7, 'Francisco Hernandez', '$2y$10$ZFiwpirZHe7Wvsy0gTQgFu.xhUM25BxjEmVhrpW/nI8WVgsAEMIcS', 1, 0);
+INSERT INTO `user` (`id`, `username`, `pass`, `admin`, `owner`, `question_type`, `question_answer`) VALUES
+(1, 'admin', '$2y$12$jFRyj5CS4kUC.xHGsT76b.dFFzCNShya3pLISA.7LY0YM9kidC/uO', 1, 1, 1, '$2y$12$tAjBjCHPpmlkRAVARIq3TefuZApT0xZyoeaCRRIIRVppOdM5.c8Q2'),
+(2, 'Juan Perez', '$2y$12$5WwiRD/xFUnQrcWwPPJeRufPJ/R34SjFayvrHBKIyrRAWYW9MQ7Ii', 0, 0, 1, '$2y$12$DerKvqC0o.2ubXtXDU/.VuBy5BqJQx8iaUg76FQ/3NNyIr41SLnhu'),
+(3, 'Heraldo Ordonez', '$2y$10$fezRQsyHX9IM9ODQk6b3TOCds/YV/u3Sad/ARrm1/HoLvvYWfrezW', 0, 0, 1, '$2y$12$kuu2vcRvTkoG5CRVtWNhyuY2vgjzJjenXv5hLzXjB3g4a4wDFT3/u'),
+(5, 'John Doe', '$2y$10$z/r7SJE6kqD3wFn9RtF3hO5qczMJT4HsoAXc8tRaqW6JMJzExPfS2', 0, 0, 1, '$2y$12$smhPVCMbuXEe./BFI/hk3uc9JUNtGmjhsqlEI.3C3ziQG0nliP7R.'),
+(7, 'Francisco Hernandez', '$2y$10$Xxdt8vO.IRKHR911vbqyR.5xhj7RBPNlScW48n7H6fGKQStxdxvh.', 1, 0, 1, '$2y$12$gMXmCKx4yllZoMfZ6SO/B.2bWrvIVCtDceHVuqiHRkRtw9900StVi'),
+(9, 'usuario123', '$2y$10$3FJzXG8YppoKP2edNRhrn.g..EylWWVgzSVg70ml5B7j5jarNzXgS', 0, 0, 2, '$2y$10$ERXGowVpAW1WMs2oHNHlReTNK/W6JO1AJ/xYWyccjedPIYOl5RSIe');
 
 --
 -- Indexes for dumped tables
@@ -212,7 +216,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `instrument`
@@ -230,7 +234,7 @@ ALTER TABLE `ins_image`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Constraints for dumped tables

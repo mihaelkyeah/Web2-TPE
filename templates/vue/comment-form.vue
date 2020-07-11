@@ -15,7 +15,8 @@
                     <label for="rating">Rating:</label>
                 </div>
                 <div class="col-auto my-1">
-                    <select v-model="rating" class="custom-select mr-sm-2" id ="rating">
+                    <select v-model="rating" class="custom-select mr-sm-2" id="rating" required>
+                        <option value="" selected disabled>Choose rating</option>
                         <option value="5">5</option>
                         <option value="4">4</option>
                         <option value="3">3</option>

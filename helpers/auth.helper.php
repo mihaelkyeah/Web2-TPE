@@ -64,6 +64,17 @@ class AuthHelper {
         }
     }
 
+    // Método extra para evitar que un usuario ya logueado pueda entrar al formulario
+    // de login o de registro
+    static public function getLoggedStatus() {
+        if(isset($_SESSION['ISLOGGED'])) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     static public function logout() {
         self::start();
         session_destroy();

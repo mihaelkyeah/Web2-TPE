@@ -43,9 +43,9 @@ class UserModel extends Model {
      * @return boolean
      * Registra un usuario nuevo a la BD
      */
-    public function saveUser($username, $pass) {
-        $query = $this->getDb()->prepare('INSERT INTO `user` (`username`, `pass`) VALUES (?, ?)');
-        return $query->execute([$username,$pass]);
+    public function saveUser($username, $pass, $questionType, $answer) {
+        $query = $this->getDb()->prepare('INSERT INTO `user` (`username`, `pass`, `question_type`, `question_answer`) VALUES (?, ?, ?, ?)');
+        return $query->execute([$username,$pass,$questionType,$answer]);
     }
 
     /**
@@ -57,6 +57,27 @@ class UserModel extends Model {
     public function updateUserAdmin($adminTrueFalse, $userID) {
         $query = $this->getDb()->prepare('UPDATE `user` SET `admin` = ? WHERE `id` = ?');
         return $query->execute([$adminTrueFalse,$userID]);
+    }
+
+    /**
+     * @return object
+     * Devuelve un objeto con el id, la pregunta y la respuesta para verificar
+     * la respuesta encriptada comparándola con la recibida por formulario.
+     */
+    public function getUserID_Q_A_byUsername($username) {
+        $query = $this->getDb()->prepare('SELECT `id`, `question_type`, `question_answer` FROM `user` WHERE `username` = ?');
+        $query->execute([$username]);
+        return $query->fetch(PDO::FETCH_OBJ);
+    }
+
+    /**
+     * @return boolean
+     * Tras haber hecho las verificaciones necesarias en el controller,
+     * procede a llamar a esta función y cambiar la contraseña por una nueva (ya encriptada)
+     */
+    public function updateUserPassword($pass, $userID) {
+        $query = $this->getDb()->prepare('UPDATE `user` SET `pass` = ? WHERE `id` = ?');
+        return $query->execute([$pass, $userID]);
     }
 
     /**

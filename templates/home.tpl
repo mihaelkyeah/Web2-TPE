@@ -1,10 +1,28 @@
 {* Página principal *}
 
 {include file='templates/header.tpl'}
-    {if isset($msg)}
+    {if isset($smarty.get.log)}
+    <div class="container">
         <div class="alert alert-info">
-            {$msg}
+        {if ($smarty.get.log) eq "in"}
+            Welcome, <strong>{$username}.</strong>
+        {elseif ($smarty.get.log) eq "out"}
+            You have logged out.
+        {/if}
         </div>
+    </div>
+    {elseif isset($smarty.get.err)}
+    <div class="container">
+        <div class="alert alert-danger">
+        {if ($smarty.get.err) eq "login"}
+            You are already logged in.
+        {elseif ($smarty.get.err) eq "logout"}
+            You have already logged out, or you were not previously logged in.
+        {elseif ($smarty.get.err) eq "signup"}
+            You are already registered and logged in.
+        {/if}
+        </div>
+    </div>
     {/if}
     <img src="img/Musical-Instruments2.jpg" class="imgBanner">
     <div class="widerContainer">

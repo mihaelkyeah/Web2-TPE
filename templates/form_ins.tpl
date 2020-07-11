@@ -6,11 +6,12 @@
     {if isset($instrument)}
         value="{$instrument->name}"
     {/if}
-    >
+    required>
 </div>
 <div class="form-group">
     <label>Category</label>
-    <select name="insCateg" id="insCateg" class="form-control">
+    <select name="insCateg" id="insCateg" class="form-control" required>
+        <option value="" selected disabled>Choose a category...</option>
         {foreach from=$categArray item=category}
             <option value={$category->id}
             {if (isset($instrument)) && ({$instrument->id_categ_fk} eq {$category->id})}
@@ -37,5 +38,5 @@
     {if isset($instrument)}
         value={$instrument->price}
     {/if}
-    >
+    required>
 </div>
