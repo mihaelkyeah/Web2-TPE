@@ -142,7 +142,7 @@ class UserController extends Controller {
         AuthHelper::getPermission();
         $success = $this->model->updateUserAdmin($adminTrueFalse, $userID);
         if($success)  {
-            header('Location:'.BASE_URL.'userlist');
+            header('Location:'.BASE_URL.'user/userlist');
         }
         else {
             $this->view->showError('The query could not be resolved','Admin privileges could not be added or removed from the user.');
@@ -214,7 +214,7 @@ class UserController extends Controller {
         AuthHelper::getPermission();
         $success = $this->model->deleteUser($userID);
         if($success) {
-            header('Location:'.BASE_URL.'userlist');
+            header('Location:'.BASE_URL.'user/userlist');
         }
         else {
             var_dump($userID);

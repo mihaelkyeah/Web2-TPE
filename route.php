@@ -85,10 +85,10 @@ switch($urlParts[0]) {
         $controller->addremoveAdmin($adminTrueFalse, $urlParts[2]);
     }
     // ¿Esto se usa?
-    /* case 'makeadmin':
+    case 'makeadmin':
         $controller = new UserController();
         $controller->makeAdmin($urlParts[1]);
-    break; */
+    break;
 
     // Navegación del sitio: instrumentos y categorías
 
